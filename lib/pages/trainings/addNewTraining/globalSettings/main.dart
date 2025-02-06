@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:unicons/unicons.dart';
-import 'package:muscu/text_styles.dart'; // Assurez-vous que ce chemin d'importation est correct
+import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/difficulty.dart';
+import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/duration.dart';
+import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/save.dart';
+import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/training_type.dart';
 
 class EditTrainingParametersPage extends StatefulWidget {
   final Map<String, dynamic> initialParameters;
@@ -29,7 +31,7 @@ class _EditTrainingParametersPageState extends State<EditTrainingParametersPage>
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(UniconsLine.angle_left, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text('Paramètres de l\'entraînement', style: TextStyle(color: Colors.white)),
@@ -39,66 +41,24 @@ class _EditTrainingParametersPageState extends State<EditTrainingParametersPage>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Type d\'entraînement', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
-            DropdownButton<String>(
-              value: selectedTrainingType,
-              isExpanded: true,
-              dropdownColor: Colors.grey[800],
-              style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
-              items: <String>['Full Body', 'Split', 'HIIT', 'Cardio']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: AppTextStyles.bodySmall.copyWith(color: Colors.white70)),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedTrainingType = newValue!;
-                });
-              },
+            TrainingTypeWidget(
+              selectedType: selectedTrainingType,
+              onChanged: (newValue) => setState(() => selectedTrainingType = newValue),
             ),
             SizedBox(height: 20),
-            Text('Durée (minutes)', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
-            Slider(
-              value: duration.toDouble(),
-              min: 15,
-              max: 120,
-              divisions: 7,
-              label: duration.toString(),
-              activeColor: Theme.of(context).colorScheme.secondary, // Partie mobile en vert
-              inactiveColor: Colors.grey[800], // Partie inactive en gris foncé
-              thumbColor: Theme.of(context).colorScheme.secondary, // Curseur en vert
-              onChanged: (double value) {
-                setState(() {
-                  duration = value.round();
-                });
-              },
+            DurationWidget(
+              duration: duration,
+              onChanged: (newValue) => setState(() => duration = newValue),
             ),
             SizedBox(height: 20),
-            Text('Difficulté', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
-            DropdownButton<String>(
-              value: difficulty,
-              isExpanded: true,
-              dropdownColor: Colors.grey[800],
-              style: AppTextStyles.bodySmall.copyWith(color: Colors.white70),
-              items: <String>['Débutant', 'Intermédiaire', 'Avancé', 'Expert']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value, style: AppTextStyles.bodyMedium),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  difficulty = newValue!;
-                });
-              },
+            DifficultyWidget(
+              difficulty: difficulty,
+              onChanged: (newValue) => setState(() => difficulty = newValue),
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: SaveButton(
         onPressed: () {
           Navigator.of(context).pop({
             'type': selectedTrainingType,
@@ -106,8 +66,8 @@ class _EditTrainingParametersPageState extends State<EditTrainingParametersPage>
             'difficulty': difficulty,
           });
         },
-        child: Icon(Icons.save, color: Colors.white),
       ),
     );
   }
 }
+
