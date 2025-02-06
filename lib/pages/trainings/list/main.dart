@@ -1,0 +1,70 @@
+import 'package:flutter/material.dart';
+import 'package:muscu/pages/trainings/list/widgets/search.dart';
+import 'package:muscu/pages/trainings/list/widgets/trainings.dart';
+import 'package:muscu/text_styles.dart';
+import 'package:unicons/unicons.dart';
+
+class SportsListPage extends StatefulWidget {
+    const SportsListPage({super.key});
+
+    @override
+    _SportsListPageState createState() => _SportsListPageState();
+}
+
+class _SportsListPageState extends State<SportsListPage> {
+    List<Map<String, dynamic>> allTrainings = [
+        {"date": "Lundi 11 Janvier", "type": "Full body", "time": "19h00 - 20h30", "duration": 90},
+        {"date": "Mercredi 13 Février", "type": "Jambes", "time": "18h30 - 19h30", "duration": 60},
+        {"date": "Jeudi 14 Mars", "type": "Bras", "time": "12h30 - 13h30", "duration": 60},
+    ];
+
+    List<Map<String, dynamic>> filteredTrainings = [];
+
+    @override
+    void initState() {
+        super.initState();
+        filteredTrainings = List.from(allTrainings);
+    }
+
+    void searchTrainings(String query) {
+        setState(() {
+            filteredTrainings = allTrainings.where((training) {
+                final dateLower = training["date"].toLowerCase();
+                final typeLower = training["type"].toLowerCase();
+                final searchLower = query.toLowerCase();
+                return dateLower.contains(searchLower) || typeLower.contains(searchLower);
+            }).toList();
+        });
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return Scaffold(
+            body: SafeArea(
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 20, top: 20),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                            Row(
+                                children: [
+                                    Expanded(
+                                        child: Text(
+                                            "Entraînements",
+                                            style: AppTextStyles.titleMedium.copyWith(fontSize: 24),
+                                            textAlign: TextAlign.center,
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            Expanded(
+                                child: TrainingsWidget(),
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+        );
+    }
+}
+
