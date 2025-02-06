@@ -47,15 +47,14 @@ class ExerciseWidget extends StatefulWidget {
 }
 
 class _ExerciseWidgetState extends State<ExerciseWidget> {
-
-
-@override
+  @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
+      child: ReorderableListView.builder(
         itemCount: widget.exercises.length,
         itemBuilder: (context, index) {
           return Padding(
+            key: ValueKey(widget.exercises[index]),
             padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 0),
             child: ExerciseCard(
               exercise: widget.exercises[index],
@@ -68,10 +67,31 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
             ),
           );
         },
+        onReorder: (oldIndex, newIndex) {
+          setState(() {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final Exercise item = widget.exercises.removeAt(oldIndex);
+            widget.exercises.insert(newIndex, item);
+          });
+        },
+        proxyDecorator: (Widget child, int index, Animation<double> animation) {
+          return AnimatedBuilder(
+            animation: animation,
+            builder: (BuildContext context, Widget? child) {
+              return Material(
+                elevation: 0,
+                color: Colors.transparent,
+                child: child,
+              );
+            },
+            child: child,
+          );
+        },
       ),
     );
   }
-
 }
 
 class ExerciseCard extends StatelessWidget {

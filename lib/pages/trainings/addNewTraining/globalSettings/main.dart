@@ -61,21 +61,20 @@ class _EditTrainingParametersPageState extends State<EditTrainingParametersPage>
             SizedBox(height: 20),
             Text('Durée (minutes)', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
             Slider(
-                  value: duration.toDouble(),
-                  min: 15,
-                  max: 120,
-                  divisions: 7,
-                  label: duration.toString(),
-                  activeColor: Theme.of(context).colorScheme.secondary, // Partie mobile en vert
-                  inactiveColor: Colors.grey[800], // Partie inactive en gris foncé
-                  thumbColor: Theme.of(context).colorScheme.secondary, // Curseur en vert
-                  onChanged: (double value) {
-                    setState(() {
-                      duration = value.round();
-                    });
-                  },
-                ),
-
+              value: duration.toDouble(),
+              min: 15,
+              max: 120,
+              divisions: 7,
+              label: duration.toString(),
+              activeColor: Theme.of(context).colorScheme.secondary, // Partie mobile en vert
+              inactiveColor: Colors.grey[800], // Partie inactive en gris foncé
+              thumbColor: Theme.of(context).colorScheme.secondary, // Curseur en vert
+              onChanged: (double value) {
+                setState(() {
+                  duration = value.round();
+                });
+              },
+            ),
             SizedBox(height: 20),
             Text('Difficulté', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white)),
             DropdownButton<String>(
@@ -112,4 +111,3 @@ class _EditTrainingParametersPageState extends State<EditTrainingParametersPage>
     );
   }
 }
-
