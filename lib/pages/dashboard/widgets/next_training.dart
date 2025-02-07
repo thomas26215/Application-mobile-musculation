@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
-import 'package:muscu/text_styles.dart';
+import 'package:muscu/styles/text_styles.dart';
 
 class NextTraining extends StatelessWidget {
     const NextTraining({super.key});

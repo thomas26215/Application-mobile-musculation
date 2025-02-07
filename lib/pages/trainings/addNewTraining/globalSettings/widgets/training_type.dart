@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muscu/text_styles.dart';
+import 'package:muscu/styles/text_styles.dart';
 
 class TrainingTypeWidget extends StatelessWidget {
   final String selectedType;
