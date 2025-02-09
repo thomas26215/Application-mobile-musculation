@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/trainings/list/widgets/search.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TrainingsWidget extends StatefulWidget {
   const TrainingsWidget({Key? key}) : super(key: key);
@@ -47,50 +48,65 @@ class _TrainingsWidgetState extends State<TrainingsWidget> {
             itemBuilder: (context, index) {
               final training = filteredTrainings[index];
               return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(6),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
-                        blurRadius: 4,
-                        offset: Offset(0, 2),
+                        blurRadius: 3,
+                        offset: Offset(0, 1),
                       ),
                     ],
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(training["date"], style: AppTextStyles.titleMedium),
-                            Text(training["type"], style: AppTextStyles.titleMedium),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Icon(Icons.history, color: Colors.white70, size: 20),
-                                const SizedBox(width: 4),
-                                Text("Historique", style: AppTextStyles.bodySmall),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                Icon(Icons.timer, color: Colors.white70, size: 20),
-                                const SizedBox(width: 4),
-                                Text("${training["duration"]} min", style: AppTextStyles.bodySmall),
-                              ],
-                            ),
-                          ],
+                        Icon(FontAwesomeIcons.dumbbell, size: 24, color: Colors.white70),
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(training["date"], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+                                  Text(training["type"], style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.secondary,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Icon(Icons.history, color: Colors.black, size: 16),
+                                        const SizedBox(width: 2),
+                                        Text("Historique", style: TextStyle(fontSize: 12, color: Colors.black)),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.timer, color: Colors.white70, size: 16),
+                                      const SizedBox(width: 2),
+                                      Text("${training["duration"]} min", style: TextStyle(fontSize: 12, color: Colors.white70)),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
