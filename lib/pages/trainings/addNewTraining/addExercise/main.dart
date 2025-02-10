@@ -49,8 +49,8 @@ class ExerciseWidget extends StatefulWidget {
 class _ExerciseWidgetState extends State<ExerciseWidget> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ReorderableListView.builder(
+    return /*Expanded(  // Remove Expanded widget here */
+       ReorderableListView.builder(
         itemCount: widget.exercises.length,
         itemBuilder: (context, index) {
           return Padding(
@@ -89,8 +89,8 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
             child: child,
           );
         },
-      ),
-    );
+      );
+    //); // Remove Expanded widget here
   }
 }
 
