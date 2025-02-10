@@ -20,7 +20,6 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
   };
   List<Exercise> exercises = [];
 
-  // Animation variables
   late AnimationController _controller;
   late Animation<double> _buttonScaleAnimation;
   late Animation<double> _iconRotationAnimation;
@@ -29,7 +28,6 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
   @override
   void initState() {
     super.initState();
-    // Initialiser l'animation
     _controller = AnimationController(
       duration: Duration(milliseconds: 500),
       vsync: this,
@@ -45,20 +43,18 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
 
     _colorAnimation = ColorTween(
       begin: Color(0xFF006400), // Vert foncé
-      end: Colors.greenAccent, // Couleur plus claire pendant l'animation
+      end: Colors.greenAccent,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
   }
 
   @override
   void dispose() {
-    _controller.dispose(); // Nettoyer l'animation
+    _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final darkGreenColor = Color(0xFF006400);  // Une couleur vert foncé
-
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(left: 20, right: 20, top: 50),
@@ -141,18 +137,16 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
             SizedBox(height: 20),
             NoteWidget(),
             SizedBox(height: 20),
-            ExerciseWidget(exercises: exercises),
-            
-            // Espace avant les boutons fixes
-            SizedBox(height: 15),
+            Expanded( // Ajouté pour prendre l'espace restant
+              child: ExerciseWidget(exercises: exercises),
+            ),
 
-            // Les boutons fixes avec proportions
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Premier bouton prenant 70% de la place
                 Expanded(
-                  flex: 6,  // Prend 70% de l'espace
+                  flex: 6,
                   child: ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
@@ -164,13 +158,13 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                         ));
                       });
                     },
-                    icon: Icon(Icons.add, color: Colors.white), // Icône pour ajouter un exercice
+                    icon: Icon(Icons.add, color: Colors.white),
                     label: Text(
                       "Add exercise",
                       style: Theme.of(context).textTheme.displayMedium,
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary, // Couleur du bouton
+                      backgroundColor: Theme.of(context).colorScheme.primary,
                       padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -179,9 +173,8 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                   ),
                 ),
                 SizedBox(width: 20),
-                // Deuxième bouton avec animation stylisée
                 Expanded(
-                  flex: 4,  // Prend 30% de l'espace
+                  flex: 4,
                   child: AnimatedBuilder(
                     animation: _controller,
                     builder: (context, child) {
@@ -189,18 +182,16 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                         scale: _buttonScaleAnimation.value,
                         child: ElevatedButton.icon(
                           onPressed: () async {
-                            // Démarre l'animation de bouton lorsqu'on clique
                             _controller.forward().then((value) {
-                              _controller.reverse();  // Revenir à la taille originale après l'animation
+                              _controller.reverse();
                             });
-
                             // Votre action de sauvegarde ici
                           },
                           icon: AnimatedBuilder(
                             animation: _iconRotationAnimation,
                             builder: (context, child) {
                               return Transform.rotate(
-                                angle: _iconRotationAnimation.value * 2 * 3.1416, // Rotation complète
+                                angle: _iconRotationAnimation.value * 2 * 3.1416,
                                 child: Icon(Icons.save, color: Colors.white),
                               );
                             },
@@ -210,7 +201,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                             style: Theme.of(context).textTheme.displayMedium,
                           ),
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: _colorAnimation.value,  // Animation de la couleur
+                            backgroundColor: _colorAnimation.value,
                             padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10),
