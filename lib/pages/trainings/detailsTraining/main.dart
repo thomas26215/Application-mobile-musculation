@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/pages/trainings/detailsTraining/widgets/sliver.dart';
 import 'package:muscu/styles/text_styles.dart';
+import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/main.dart';
 
 class DetailPage extends StatefulWidget {
   DetailPage({Key? key}) : super(key: key);
@@ -29,6 +30,13 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
         });
       }
     });
+
+    final List<Map<String, dynamic>> exerciseList = [
+      {'name': 'Pompes', 'repetitions': 15, 'series': 3},
+      {'name': 'Squats', 'repetitions': 20, 'series': 3},
+      {'name': 'Tractions', 'repetitions': 8, 'series': 3},
+    ];
+
   }
 
   @override
@@ -182,20 +190,33 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.9),
-                padding: EdgeInsets.symmetric(vertical: 20),
-                textStyle: AppTextStyles.titleMedium.copyWith(color: Colors.white),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-              ),
-              onPressed: () {
-                print("Démarrer la séance");
-              },
-              child: Center(child: Text("Démarrer la séance")),
-            ),
+           padding: EdgeInsets.all(10),
+decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
+child: ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.9),
+    padding: EdgeInsets.symmetric(vertical: 20),
+    textStyle: AppTextStyles.titleMedium.copyWith(color: Colors.white),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  ),
+  onPressed: () {
+    // Créez une liste d'exercices (à remplacer par vos vraies données)
+    final List<Map<String, dynamic>> exerciseList = [
+      {'name': 'Pompes', 'repetitions': 15, 'series': 3},
+      {'name': 'Squats', 'repetitions': 20, 'series': 3},
+      {'name': 'Tractions', 'repetitions': 8, 'series': 3},
+    ];
+
+    // Naviguez vers la page RepetitionsExercise
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => RepetitionsExercise(exercises: exerciseList),
+      ),
+    );
+  },
+  child: Center(child: Text("Démarrer la séance")),
+),
+
           )
         ],
       ),
