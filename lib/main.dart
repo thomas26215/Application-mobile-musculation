@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/pages/dashboard/main.dart';
+import 'package:muscu/models/database_helper.dart';
+import 'package:muscu/models/utilisateur/utilisateurs.dart';
+import 'package:muscu/models/utilisateur/profils.dart';
+import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/pages/testBDD/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final dbHelper = DatabaseHelper.instance;
+  
+  // Activer les contraintes de clé étrangère
+  final db = await dbHelper.database;
+  await db.execute('PRAGMA foreign_keys = ON');
+  
+  await UserTable.createTable(dbHelper);
+  await ProfilTable.createTable(dbHelper);
+  await SessionTable.createTable(dbHelper);
+
   runApp(const MyApp());
 }
 
@@ -53,7 +69,8 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const DashBoardPage(),
+      //home: const DashBoardPage(),
+      home: const HomePage(),
     );
   }
 }
