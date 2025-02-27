@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:model_viewer_plus/model_viewer_plus.dart';
 
 class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    final double expandedHeight = 300; // Hauteur fixe
-    final double roundedContainerHeight = 50; // Hauteur fixe
+    final double expandedHeight = 300;
+    final double roundedContainerHeight = 50;
     final scaffoldBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
 
     return Stack(
@@ -14,11 +15,15 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: expandedHeight,
-            color: Theme.of(context).colorScheme.primary, // Couleur de fond pour simuler un espace réservé
-            child: Icon(
-              Icons.sports_esports, // Icône représentant un jeu
-              size: 100,
-              color: Colors.grey[600],
+            color: Theme.of(context).colorScheme.primary,
+            child: ModelViewer(
+              src: 'assets/test.glb',
+              alt: 'A 3D model',
+              ar: false, // Désactivé pour éviter l'accès à la caméra
+              autoRotate: true,
+              cameraControls: true,
+              disableZoom: false,
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),
@@ -29,7 +34,7 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
             width: MediaQuery.of(context).size.width,
             height: roundedContainerHeight,
             decoration: BoxDecoration(
-              color: scaffoldBackgroundColor, // Utilisation de la couleur d'arrière-plan principale
+              color: scaffoldBackgroundColor,
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
@@ -56,10 +61,10 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
   }
 
   @override
-  double get maxExtent => 300; // Hauteur maximale fixe
+  double get maxExtent => 300;
 
   @override
-  double get minExtent => kToolbarHeight; // Hauteur minimale (barre d'outils)
+  double get minExtent => kToolbarHeight;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

@@ -6,38 +6,15 @@ import 'package:muscu/pages/trainings/list/widgets/search.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TrainingsWidget extends StatefulWidget {
-  const TrainingsWidget({Key? key}) : super(key: key);
+  final List<Map<String, dynamic>> filteredTrainings;
+
+  const TrainingsWidget({Key? key, required this.filteredTrainings}) : super(key: key);
 
   @override
   _TrainingsWidgetState createState() => _TrainingsWidgetState();
 }
 
 class _TrainingsWidgetState extends State<TrainingsWidget> {
-  final List<Map<String, dynamic>> allTrainings = [
-    {"date": "Lundi 11 Janvier", "type": "Full body", "time": "19h00 - 20h30", "duration": 90},
-    {"date": "Mercredi 13 Février", "type": "Jambes", "time": "18h30 - 19h30", "duration": 60},
-    {"date": "Jeudi 14 Mars", "type": "Bras", "time": "12h30 - 13h30", "duration": 60},
-  ];
-
-  List<Map<String, dynamic>> filteredTrainings = [];
-
-  @override
-  void initState() {
-    super.initState();
-    filteredTrainings = List.from(allTrainings);
-  }
-
-  void searchTrainings(String query) {
-    setState(() {
-      filteredTrainings = allTrainings.where((training) {
-        final dateLower = training["date"].toLowerCase();
-        final typeLower = training["type"].toLowerCase();
-        final searchLower = query.toLowerCase();
-        return dateLower.contains(searchLower) || typeLower.contains(searchLower);
-      }).toList();
-    });
-  }
-
   void _onTrainingTap(Map<String, dynamic> training) {
     Navigator.push(
       context,
@@ -49,12 +26,12 @@ class _TrainingsWidgetState extends State<TrainingsWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SearchWidget(onSearch: searchTrainings),
+        SearchWidget(onSearch: (String query) {}),  // Vous devrez gérer la recherche dans le widget parent
         Expanded(
           child: ListView.builder(
-            itemCount: filteredTrainings.length,
+            itemCount: widget.filteredTrainings.length,
             itemBuilder: (context, index) {
-              final training = filteredTrainings[index];
+              final training = widget.filteredTrainings[index];
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
                 child: InkWell(
