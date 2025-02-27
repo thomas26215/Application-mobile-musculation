@@ -4,7 +4,6 @@ import 'package:muscu/models/seance/seance.dart';
 import 'package:muscu/pages/trainings/list/widgets/search.dart';
 import 'package:muscu/pages/trainings/list/widgets/trainings.dart';
 import 'package:muscu/styles/text_styles.dart';
-import 'package:unicons/unicons.dart';
 
 class SportsListPage extends StatefulWidget {
     const SportsListPage({super.key});
@@ -15,36 +14,33 @@ class SportsListPage extends StatefulWidget {
 
 class _SportsListPageState extends State<SportsListPage> {
     final dbHelper = DatabaseHelper.instance;
-    List<Map<String, dynamic>> allTrainings = [
-        {"date": "Lundi 11 Janvier", "type": "Full body", "time": "19h00 - 20h30", "duration": 90},
-        {"date": "Mercredi 13 Février", "type": "Jambes", "time": "18h30 - 19h30", "duration": 60},
-        {"date": "Jeudi 14 Mars", "type": "Bras", "time": "12h30 - 13h30", "duration": 60},
-    ];
-    List<Session> sessions = [];
-
-    List<Map<String, dynamic>> filteredTrainings = [];
+    List<Session> allTrainings = [];
+    List<Session> filteredTrainings = [];
 
     @override
     void initState() {
         super.initState();
         _loadSessions();
-        filteredTrainings = List.from(allTrainings);
     }
 
     Future<void> _loadSessions() async {
         final loadedSessions = await SessionTable.getAllSessions(dbHelper);
         setState(() {
-            sessions = loadedSessions;
+            allTrainings = loadedSessions;
+            filteredTrainings = List.from(allTrainings);
         });
     }
 
     void searchTrainings(String query) {
         setState(() {
             filteredTrainings = allTrainings.where((training) {
-                final dateLower = training["date"].toLowerCase();
-                final typeLower = training["type"].toLowerCase();
+                final nomLower = training.nom.toLowerCase();
+                final typeLower = training.type?.toLowerCase() ?? '';
+                final descriptionLower = training.description?.toLowerCase() ?? '';
                 final searchLower = query.toLowerCase();
-                return dateLower.contains(searchLower) || typeLower.contains(searchLower);
+                return nomLower.contains(searchLower) || 
+                       typeLower.contains(searchLower) ||
+                       descriptionLower.contains(searchLower);
             }).toList();
         });
     }
@@ -69,6 +65,7 @@ class _SportsListPageState extends State<SportsListPage> {
                                     ),
                                 ],
                             ),
+                            SearchWidget(onSearch: searchTrainings),
                             Expanded(
                                 child: TrainingsWidget(filteredTrainings: filteredTrainings),
                             ),

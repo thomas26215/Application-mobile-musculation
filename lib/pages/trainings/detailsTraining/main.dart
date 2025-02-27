@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/models/seance/seance.dart';
 import 'package:muscu/pages/trainings/detailsTraining/widgets/sliver.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/main.dart';
 
 class DetailPage extends StatefulWidget {
-  DetailPage({Key? key}) : super(key: key);
+  final Session session; // Ajout de la session
+
+  DetailPage({Key? key, required this.session}) : super(key: key); // Modification du constructeur
 
   @override
   _DetailPageState createState() => _DetailPageState();
@@ -31,11 +34,12 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
       }
     });
 
-    final List<Map<String, dynamic>> exerciseList = [
-      {'name': 'Pompes', 'repetitions': 15, 'series': 3},
-      {'name': 'Squats', 'repetitions': 20, 'series': 3},
-      {'name': 'Tractions', 'repetitions': 8, 'series': 3},
-    ];
+    // Exemple de liste d'exercices (à remplacer par les données de la session)
+    // final List<Map<String, dynamic>> exerciseList = [
+    //   {'name': 'Pompes', 'repetitions': 15, 'series': 3},
+    //   {'name': 'Squats', 'repetitions': 20, 'series': 3},
+    //   {'name': 'Tractions', 'repetitions': 8, 'series': 3},
+    // ];
 
   }
 
@@ -67,6 +71,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    // Exemple d'exercices (à remplacer par les données réelles de la session)
     final List<Map<String, dynamic>> exercises = [
       {"name": "Échauffement", "duration": "10 min", "type": "Échauffement"},
       {"name": "Pompes", "duration": "3 séries x 15 répétitions", "type": "Force"},
@@ -75,7 +80,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
       {"name": "Étirements", "duration": "5 min", "type": "Récupération"},
     ];
 
-    final String difficultyLevel = getDifficultyLevel("intermediate");
+    final String difficultyLevel = getDifficultyLevel("intermediate"); // A remplacer avec la difficulte de la session
 
     return Scaffold(
       body: Column(
@@ -93,21 +98,21 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Séance : FullBody",
+                          "Séance : ${widget.session.nom}", // Utilisation du nom de la session
                           style: AppTextStyles.titleMedium,
                         ),
                         SizedBox(height: 10),
-                        _buildInfoRow(Icons.fitness_center, "Type de séance : FullBody"),
+                        _buildInfoRow(Icons.fitness_center, "Type de séance : ${widget.session.type ?? 'Non spécifié'}"), // Utilisation du type de la session
                         SizedBox(height: 8),
-                        _buildInfoRow(Icons.timer, "Durée totale : 45 minutes"),
+                        _buildInfoRow(Icons.timer, "Durée totale : 45 minutes"), // TODO: Implement duration
                         SizedBox(height: 8),
-                        _buildInfoRow(Icons.star, "Niveau : $difficultyLevel"),
+                        _buildInfoRow(Icons.star, "Niveau : $difficultyLevel"), // A remplacer
                         SizedBox(height: 8),
-                        _buildInfoRow(Icons.local_fire_department, "Calories estimées : ~300 kcal"),
+                        _buildInfoRow(Icons.local_fire_department, "Calories estimées : ~300 kcal"), // TODO: implement calories
                         SizedBox(height: 8),
-                        _buildInfoRow(Icons.flag, "Objectif : Renforcement musculaire et endurance"),
+                        _buildInfoRow(Icons.flag, "Objectif : Renforcement musculaire et endurance"), // TODO: Implement objective
                         SizedBox(height: 8),
-                        _buildInfoRow(Icons.sports_gymnastics, "Équipement requis : Tapis, Haltères"),
+                        _buildInfoRow(Icons.sports_gymnastics, "Équipement requis : Tapis, Haltères"), // TODO: Implement equipment
                         SizedBox(height: 16),
                         LinearProgressIndicator(
                           valueColor: AlwaysStoppedAnimation<Color>(Colors.orangeAccent),
@@ -206,7 +211,6 @@ child: ElevatedButton(
       {'name': 'Squats', 'repetitions': 20, 'series': 3},
       {'name': 'Tractions', 'repetitions': 8, 'series': 3},
     ];
-
     // Naviguez vers la page RepetitionsExercise
     Navigator.of(context).push(
       MaterialPageRoute(
