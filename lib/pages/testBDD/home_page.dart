@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/pages/dashboard/main.dart';
 import 'package:muscu/pages/testBDD/user_management.dart';
-import 'package:muscu/pages/testBDD/profile_management.dart';
 import 'package:muscu/pages/testBDD/session_management.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,7 +10,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('GameStore'),
+        title: Text('Muscu App'),
       ),
       body: Center(
         child: Column(
@@ -35,16 +34,6 @@ class HomePage extends StatelessWidget {
                 );
               },
               child: Text('Gestion des utilisateurs'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfileManagementPage()),
-                );
-              },
-              child: Text('Gestion des profils'),
             ),
             SizedBox(height: 20),
             ElevatedButton(

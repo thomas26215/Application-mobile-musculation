@@ -2,19 +2,19 @@ import 'package:intl/intl.dart';
 import '../database_helper.dart';
 
 class SessionTable {
-  static const String tableName = 'session';
+  static const String tableName = 'sessions';
 
   static Future<void> createTable(DatabaseHelper dbHelper) async {
     final db = await dbHelper.database;
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_utilisateur INTEGER NOT NULL,
-        nom VARCHAR(50) NOT NULL,
-        type VARCHAR(50),
+        user_id INTEGER NOT NULL,
+        name VARCHAR(255) NOT NULL,
         description TEXT,
-        date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (id_utilisateur) REFERENCES utilisateur(id)
+        type VARCHAR(50),
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id)
       )
     ''');
   }
@@ -43,7 +43,7 @@ class SessionTable {
   static Future<List<Session>> getSessionsByUserId(DatabaseHelper dbHelper, int userId) async {
     final List<Map<String, dynamic>> maps = await dbHelper.queryRows(
       tableName,
-      'id_utilisateur = ?',
+      'user_id = ?',
       [userId],
     );
     return List.generate(maps.length, (i) => Session.fromMap(maps[i]));
@@ -73,40 +73,40 @@ class SessionTable {
 
 class Session {
   final int? id;
-  final int idUtilisateur;
-  final String nom;
-  final String? type;
+  final int userId;
+  final String name;
   final String? description;
-  final DateTime dateCreation;
+  final String? type;
+  final DateTime createdAt;
 
   Session({
     this.id,
-    required this.idUtilisateur,
-    required this.nom,
-    this.type,
+    required this.userId,
+    required this.name,
     this.description,
-    DateTime? dateCreation,
-  }) : this.dateCreation = dateCreation ?? DateTime.now();
+    this.type,
+    DateTime? createdAt,
+  }) : this.createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'id_utilisateur': idUtilisateur,
-      'nom': nom,
-      'type': type,
+      'user_id': userId,
+      'name': name,
       'description': description,
-      'date_creation': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateCreation),
+      'type': type,
+      'created_at': DateFormat('yyyy-MM-dd HH:mm:ss').format(createdAt),
     };
   }
 
   factory Session.fromMap(Map<String, dynamic> map) {
     return Session(
       id: map['id'],
-      idUtilisateur: map['id_utilisateur'],
-      nom: map['nom'],
-      type: map['type'],
+      userId: map['user_id'],
+      name: map['name'],
       description: map['description'],
-      dateCreation: DateTime.parse(map['date_creation']),
+      type: map['type'],
+      createdAt: DateTime.parse(map['created_at']),
     );
   }
 }

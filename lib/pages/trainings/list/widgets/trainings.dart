@@ -57,7 +57,7 @@ class _TrainingsWidgetState extends State<TrainingsWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                session.nom,
+                                session.name,
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white)
                               ),
                               Text(
@@ -85,7 +85,7 @@ class _TrainingsWidgetState extends State<TrainingsWidget> {
                                 ),
                               ),
                               Text(
-                                DateFormat('dd/MM/yyyy').format(session.dateCreation),
+                                DateFormat('dd/MM/yyyy').format(session.createdAt),
                                 style: TextStyle(fontSize: 12, color: Colors.white70)
                               ),
                             ],

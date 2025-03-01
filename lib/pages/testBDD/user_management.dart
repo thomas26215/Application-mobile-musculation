@@ -35,7 +35,7 @@ class _UserManagementPageState extends State<UserManagementPage> {
         itemBuilder: (context, index) {
           final user = users[index];
           return ListTile(
-            title: Text(user.pseudo, style: Theme.of(context).textTheme.displayMedium),
+            title: Text(user.username, style: Theme.of(context).textTheme.displayMedium),
             subtitle: Text(user.email, style: Theme.of(context).textTheme.displaySmall),
             trailing: IconButton(
               icon: Icon(Icons.delete, color: Colors.white),
@@ -95,9 +95,9 @@ class _UserManagementPageState extends State<UserManagementPage> {
               child: Text('Ajouter'),
               onPressed: () async {
                 final newUser = User(
-                  pseudo: pseudoController.text,
+                  username: pseudoController.text,
                   email: emailController.text,
-                  motDePasse: passwordController.text,
+                  passwordHash: passwordController.text,
                 );
                 await UserTable.insert(dbHelper, newUser);
                 Navigator.of(context).pop();

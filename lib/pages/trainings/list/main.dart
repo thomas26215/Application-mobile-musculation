@@ -34,7 +34,7 @@ class _SportsListPageState extends State<SportsListPage> {
     void searchTrainings(String query) {
         setState(() {
             filteredTrainings = allTrainings.where((training) {
-                final nomLower = training.nom.toLowerCase();
+                final nomLower = training.name.toLowerCase();
                 final typeLower = training.type?.toLowerCase() ?? '';
                 final descriptionLower = training.description?.toLowerCase() ?? '';
                 final searchLower = query.toLowerCase();

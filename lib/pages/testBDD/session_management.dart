@@ -50,12 +50,12 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
         itemBuilder: (context, index) {
           final session = sessions[index];
           return ListTile(
-            title: Text(session.nom, style: Theme.of(context).textTheme.displayMedium),
+            title: Text(session.name, style: Theme.of(context).textTheme.displayMedium),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Type: ${session.type ?? "Non spécifié"}', style: Theme.of(context).textTheme.displaySmall),
-                Text('Créée le ${DateFormat('yyyy-MM-dd').format(session.dateCreation)}', style: Theme.of(context).textTheme.displaySmall),
+                Text('Créée le ${DateFormat('yyyy-MM-dd').format(session.createdAt)}', style: Theme.of(context).textTheme.displaySmall),
               ],
             ),
             trailing: IconButton(
@@ -105,7 +105,7 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
                       items: users.map((User user) {
                         return DropdownMenuItem<User>(
                           value: user,
-                          child: Text(user.pseudo),
+                          child: Text(user.username),
                         );
                       }).toList(),
                     ),
@@ -153,8 +153,8 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
                       return;
                     }
                     final newSession = Session(
-                      idUtilisateur: localSelectedUser!.id!,
-                      nom: nomController.text,
+                      userId: localSelectedUser!.id!,
+                      name: nomController.text,
                       type: localSelectedType,
                       description: descriptionController.text,
                     );

@@ -97,7 +97,7 @@ class _ProfileManagementPageState extends State<ProfileManagementPage> {
                       items: users.map((User user) {
                         return DropdownMenuItem<User>(
                           value: user,
-                          child: Text(user.pseudo),
+                          child: Text(user.username),
                         );
                       }).toList(),
                     ),

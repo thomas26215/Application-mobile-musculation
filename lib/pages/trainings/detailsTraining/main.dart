@@ -98,7 +98,7 @@ class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Séance : ${widget.session.nom}", // Utilisation du nom de la session
+                          "Séance : ${widget.session.name}", // Utilisation du nom de la session
                           style: AppTextStyles.titleMedium,
                         ),
                         SizedBox(height: 10),

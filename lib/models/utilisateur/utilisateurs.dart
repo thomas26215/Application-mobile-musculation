@@ -2,18 +2,17 @@ import 'package:intl/intl.dart';
 import '../database_helper.dart';
 
 class UserTable {
-  static const String tableName = 'utilisateur';
+  static const String tableName = 'users';
 
   static Future<void> createTable(DatabaseHelper dbHelper) async {
     final db = await dbHelper.database;
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        pseudo VARCHAR(50) NOT NULL,
-        email VARCHAR(100) NOT NULL UNIQUE,
-        mot_de_passe VARCHAR(255) NOT NULL,
-        date_inscription DATETIME DEFAULT CURRENT_TIMESTAMP,
-        derniere_connexion DATETIME
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     ''');
   }
@@ -63,44 +62,37 @@ class UserTable {
 
 class User {
   final int? id;
-  final String pseudo;
+  final String username;
   final String email;
-  final String motDePasse;
-  final DateTime dateInscription;
-  final DateTime? derniereConnexion;
+  final String passwordHash;
+  final DateTime createdAt;
 
   User({
     this.id,
-    required this.pseudo,
+    required this.username,
     required this.email,
-    required this.motDePasse,
-    DateTime? dateInscription,
-    this.derniereConnexion,
-  }) : this.dateInscription = dateInscription ?? DateTime.now();
+    required this.passwordHash,
+    DateTime? createdAt,
+  }) : this.createdAt = createdAt ?? DateTime.now();
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'pseudo': pseudo,
+      'username': username,
       'email': email,
-      'mot_de_passe': motDePasse,
-      'date_inscription': DateFormat('yyyy-MM-dd HH:mm:ss').format(dateInscription),
-      'derniere_connexion': derniereConnexion != null
-          ? DateFormat('yyyy-MM-dd HH:mm:ss').format(derniereConnexion!)
-          : null,
+      'password_hash': passwordHash,
+      'created_at': DateFormat('yyyy-MM-dd HH:mm:ss').format(createdAt),
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       id: map['id'],
-      pseudo: map['pseudo'],
+      username: map['username'],
       email: map['email'],
-      motDePasse: map['mot_de_passe'],
-      dateInscription: DateTime.parse(map['date_inscription']),
-      derniereConnexion: map['derniere_connexion'] != null
-          ? DateTime.parse(map['derniere_connexion'])
-          : null,
+      passwordHash: map['password_hash'],
+      createdAt: DateTime.parse(map['created_at']),
     );
   }
 }
+
