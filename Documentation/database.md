@@ -19,10 +19,11 @@ Cette documentation détaille la structure et l'utilisation de notre base de don
 ### Aperçu des Tables
 
 - `users`: Informations sur les utilisateurs
-- `exercises`: Catalogue d'exercices
-- `tags` et `exercise_tags`: Système de tags pour les exercices
-- `sessions`: Séances d'entraînement
-- `session_exercises`: Exercices spécifiques dans une séance
+- `exercises`: Catalogue d'exercices crées par les utilisateurs
+-  `tags`: Étiquettes pour classer les exercices
+- `exercise_tags`: Association entre exercices et étiquettes
+- `sessions`: Représentes les séances d'entraînements crées par les utilisateurs
+- `session_exercises`: Représete les exercices présents dans une séance, leur ordre, paramètre, type d'exercice ...
 - `exercise_ratings`: Évaluations des exercices
 - `exercise_comments`: Commentaires sur les exercices
 - `exercise_stats`: Statistiques d'utilisation des exercices
@@ -43,7 +44,7 @@ CREATE TABLE exercises (
     user_id INTEGER NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    type VARCHAR(50) NOT NULL,
+    type ENUM('strength', 'endurance') NOT NULL,
     is_public BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -115,6 +116,97 @@ CREATE TABLE exercise_stats (
     last_interaction DATETIME,
     FOREIGN KEY (exercise_id) REFERENCES exercises(id)
 );
+```
+
+### Représentation graphique
+
+```mermaid
+erDiagram
+
+users {
+    INTEGER id PK
+    VARCHAR username
+    VARCHAR email
+    VARCHAR password_hash
+    DATETIME created_at
+}
+
+exercises {
+    INTEGER id PK
+    INTEGER user_id FK
+    VARCHAR name
+    TEXT description
+    VARCHAR type
+    BOOLEAN is_public
+    DATETIME created_at
+}
+
+tags {
+    INTEGER id PK
+    VARCHAR name
+}
+
+exercise_tags {
+    INTEGER exercise_id PK, FK
+    INTEGER tag_id PK, FK
+}
+
+sessions {
+    INTEGER id PK
+    INTEGER user_id FK
+    VARCHAR name
+    TEXT description
+    DATETIME created_at
+}
+
+session_exercises {
+    INTEGER id PK
+    INTEGER session_id FK
+    INTEGER exercise_id FK
+    INTEGER order_in_session
+    INTEGER sets
+    INTEGER reps
+    INTEGER duration
+    INTEGER rest_time
+    DECIMAL weight
+    ENUM exercise_type
+    JSON custom_data
+}
+
+exercise_ratings {
+    INTEGER id PK
+    INTEGER exercise_id FK
+    INTEGER user_id FK
+    INTEGER rating
+    DATETIME created_at
+}
+
+exercise_comments {
+    INTEGER id PK
+    INTEGER exercise_id FK
+    INTEGER user_id FK
+    TEXT comment
+    DATETIME created_at
+}
+
+exercise_stats {
+    INTEGER exercise_id PK, FK
+    INTEGER views
+    INTEGER likes
+    DATETIME last_interaction
+}
+
+users ||--o{ exercises : "crée"
+users ||--o{ sessions : "crée"
+exercises ||--o{ exercise_tags : "a"
+tags ||--o{ exercise_tags : "a"
+exercises ||--o{ session_exercises : "utilisé dans"
+sessions ||--o{ session_exercises : "contient"
+exercises ||--o{ exercise_ratings : "noté par"
+users ||--o{ exercise_ratings : "note"
+exercises ||--o{ exercise_comments : "commenté par"
+users ||--o{ exercise_comments : "commente"
+exercises ||--|| exercise_stats : "a"
 ```
 
 ## Types d'Exercices
