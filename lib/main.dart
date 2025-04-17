@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/models/exercise/exercise.dart';
 import 'package:muscu/pages/dashboard/main.dart';
 import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/models/utilisateur/utilisateurs.dart';
@@ -17,6 +18,7 @@ void main() async {
   await UserTable.createTable(dbHelper);
   await ProfilTable.createTable(dbHelper);
   await SessionTable.createTable(dbHelper);
+  await ExerciseTable.createTable(dbHelper);
 
   runApp(const MyApp());
 }

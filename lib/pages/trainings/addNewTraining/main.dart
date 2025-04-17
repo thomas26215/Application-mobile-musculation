@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/pages/trainings/addNewTraining/widgets/header.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/trainings/addNewTraining/widgets/note.dart';
 import 'package:muscu/pages/trainings/addNewTraining/globalSettings/main.dart';
@@ -61,42 +62,13 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Icon(
-                    UniconsLine.angle_left,
-                    color: Colors.white,
-                    size: 40,
-                  ),
-                ),
-                Expanded(
-                  child: TextField(
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Colors.white),
-                    decoration: InputDecoration(
-                      hintText: "Nom de l'entraînement",
-                      hintStyle: Theme.of(context).textTheme.displayLarge?.copyWith(color: Colors.white54),
-                      border: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
-                      ),
-                    ),
-                    onChanged: (value) {
-                      setState(() {
-                        trainingName = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
+            Header(
+              trainingName: trainingName,
+              onChanged: (value) {
+                setState(() {
+                  trainingName = value;
+                });
+              },
             ),
             SizedBox(height: 20),
             GestureDetector(
@@ -221,4 +193,3 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
     );
   }
 }
-

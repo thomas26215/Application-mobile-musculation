@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/pages/dashboard/main.dart';
+import 'package:muscu/pages/testBDD/exercises_management.dart';
+import 'package:muscu/pages/testBDD/session_exercise.dart';
 import 'package:muscu/pages/testBDD/user_management.dart';
 import 'package:muscu/pages/testBDD/session_management.dart';
 
@@ -45,6 +47,21 @@ class HomePage extends StatelessWidget {
               },
               child: Text('Gestion des sessions'),
             ),
+            ElevatedButton(
+                onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => ExercisesManagementPage()),
+                    );
+                },
+                child: Text('Gestion des exercices'),
+            ),
+            ElevatedButton(onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SessionExercisesPage()),
+                );
+            }, child: Text('Gestion des exercices de la séance')),
           ],
         ),
       ),

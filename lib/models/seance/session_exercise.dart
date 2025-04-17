@@ -29,7 +29,7 @@ class SessionExerciseTable {
         rest_time INTEGER,
         weight DECIMAL(5,2),
         exercise_type TEXT NOT NULL,
-        custom_data JSON,
+        custom_data TEXT,
         FOREIGN KEY (session_id) REFERENCES sessions(id),
         FOREIGN KEY (exercise_id) REFERENCES exercises(id)
       )
@@ -116,20 +116,23 @@ class SessionExercise {
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'session_id': sessionId,
-      'exercise_id': exerciseId,
-      'order_in_session': orderInSession,
-      'sets': sets,
-      'reps': reps,
-      'duration': duration,
-      'rest_time': restTime,
-      'weight': weight,
-      'exercise_type': exerciseType.toString().split('.').last,
-      'custom_data': customData != null ? json.encode(customData) : null,
-    };
+  final map = <String, dynamic>{
+    'session_id': sessionId,
+    'exercise_id': exerciseId,
+    'order_in_session': orderInSession,
+    'sets': sets,
+    'reps': reps,
+    'duration': duration,
+    'rest_time': restTime,
+    'weight': weight,
+    'exercise_type': exerciseType.toString().split('.').last,
+    'custom_data': customData != null ? json.encode(customData) : null,
+  };
+  if (id != null) {
+    map['id'] = id;
   }
+  return map;
+}
 
   static SessionExercise fromMap(Map<String, dynamic> map) {
     return SessionExercise(
