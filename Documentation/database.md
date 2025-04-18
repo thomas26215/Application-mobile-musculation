@@ -432,13 +432,3 @@ GROUP BY e.id;
 - Maintenez une documentation à jour pour faciliter l'évolution du schéma
 
 Cette documentation technique fournit une vue d'ensemble complète de la structure de la base de données, des types d'exercices supportés, des exemples d'insertion pour chaque type, ainsi que des considérations importantes pour la performance et la maintenance du système.
-
-Citations:
-[1] https://aymeric-auberton.fr/academie/mysql/exercices
-[2] https://www.uv.es/nemiche/cursos/polycopies/Exercices%20Corrig%C3%A9s%20Initaition%20aux%20BDD.pdf
-[3] https://lipn.univ-paris13.fr/~petrucci/polycopies/TD_M2104.pdf
-[4] https://sql.sh/exercices-sql
-[5] https://www.9raytifclick.com/exercices/tp-ldd/
-[6] https://glassus.github.io/terminale_nsi/T4_Bases_de_donnees/4.2_Langage_SQL/02_exercices_ecrit/
-[7] https://pixees.fr/informatiquelycee/term/c3e.html
-[8] https://learnsql.fr/blog/sql-pour-l-analyse-de-donnees-15-exercices-pratiques-avec-solutions/
