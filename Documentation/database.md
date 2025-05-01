@@ -224,13 +224,21 @@ Notre système supporte plusieurs types d'exercices, chacun avec ses spécificit
 
 ## Exemples d'Insertion
 
-### Exercice Standard
+Voici l’ensemble des exemples d’insertion adaptés à la vie réelle, avec des commentaires détaillés pour chaque cas. Ces exemples montrent comment insérer différents types d’exercices dans une séance, en tenant compte des besoins pratiques courants (par exemple, plusieurs séries de drop sets, gestion des paramètres avancés, etc.)[1].
+
+---
+
+## Exercice Standard
 
 ```sql
+-- Création d'un exercice de squat classique
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES (1, 'Squat', 'Squat standard avec barre', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, reps, weight, exercise_type)
+-- Ajout de cet exercice à une séance avec 3 séries de 10 répétitions à 100 kg
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, reps, weight, exercise_type
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Squat'),
@@ -241,38 +249,54 @@ VALUES (
   'standard'
 );
 ```
+**Commentaire :**  
+Cet exemple correspond à un exercice classique de musculation. L’utilisateur effectue 3 séries de 10 répétitions de squat à 100 kg. Ce format est le plus courant pour structurer un exercice « de base » avec séries et répétitions fixes.
 
-### Drop Set
+---
+
+## Drop Set (plusieurs séries)
 
 ```sql
+-- Création d'un exercice de curl biceps en drop set
 INSERT INTO exercises (user_id, name, description, type, is_public)
-VALUES (1, 'Curl biceps drop set', 'Curl biceps avec diminution progressive du poids', 'strength', true);
+VALUES (1, 'Curl biceps drop set', 'Curl biceps avec plusieurs séries drop set', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, exercise_type, custom_data)
+-- Ajout de l'exercice à la séance avec 3 séries de drop set
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, exercise_type, custom_data
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Curl biceps drop set'),
   2,
-  1,
+  3, -- 3 séries de drop set
   'dropSet',
   JSON_OBJECT(
-    'initial_weight', 20,
     'drops', JSON_ARRAY(
       JSON_OBJECT('weight', 20, 'reps', 8),
       JSON_OBJECT('weight', 15, 'reps', 8),
       JSON_OBJECT('weight', 10, 'reps', 8)
-    )
+    ),
+    'rest_between_sets', 90 -- 90 secondes de repos entre chaque série complète de drop set
   )
 );
 ```
+**Commentaire :**  
+L’utilisateur effectue ici 3 séries de drop set. Chaque série consiste à faire 8 répétitions à 20 kg, puis sans repos baisser à 15 kg pour 8 reps, puis à 10 kg pour 8 reps. Après chaque série complète de drop set, il prend 90 secondes de repos. Ce format est très utilisé en musculation pour augmenter l’intensité d’un exercice sur plusieurs séries.
 
-### Pyramid
+---
+
+## Pyramid
 
 ```sql
+-- Création d'un exercice pyramidal
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES (1, 'Développé militaire pyramidal', 'Développé militaire avec augmentation puis diminution du poids', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, exercise_type, custom_data)
+-- Ajout à la séance avec structure pyramidale
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, exercise_type, custom_data
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Développé militaire pyramidal'),
@@ -289,14 +313,22 @@ VALUES (
   )
 );
 ```
+**Commentaire :**  
+L’exercice suit ici une progression pyramidale : on commence léger (40 kg, 12 reps), on monte en charge (jusqu’à 60 kg, 8 reps), puis on redescend. Cela permet de travailler avec différentes intensités et volumes sur un même exercice, ce qui est courant pour le développement de la force et de la masse musculaire.
 
-### Time Under Tension
+---
+
+## Time Under Tension (TUT)
 
 ```sql
+-- Création d'un exercice d'endurance basé sur le temps sous tension
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES (1, 'Planche TUT', 'Planche avec temps sous tension', 'endurance', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, exercise_type, custom_data)
+-- Ajout à la séance avec 3 séries de 60 secondes, tempo contrôlé
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, exercise_type, custom_data
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Planche TUT'),
@@ -309,24 +341,37 @@ VALUES (
   )
 );
 ```
+**Commentaire :**  
+L’utilisateur effectue 3 séries de planche, chaque série durant 60 secondes, avec un tempo spécifique (par exemple, 2 secondes montée, 1 seconde maintien, 2 secondes descente, 1 seconde pause). Ce format est adapté aux exercices où le temps sous tension est plus important que le nombre de répétitions.
 
-### Super Set
+---
+
+## Super Set
 
 ```sql
+-- Création de deux exercices pour un super set
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES 
   (1, 'Développé couché', 'Développé couché avec barre', 'strength', true),
   (1, 'Rowing barre', 'Rowing avec barre', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, reps, weight, exercise_type, custom_data)
+-- Ajout à la séance, les deux exercices sont enchaînés sans repos
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, reps, weight, exercise_type, custom_data
+)
 VALUES 
   (1, (SELECT id FROM exercises WHERE name = 'Développé couché'), 5, 3, 10, 80, 'superSet', JSON_OBJECT('super_set_order', 1)),
   (1, (SELECT id FROM exercises WHERE name = 'Rowing barre'), 5, 3, 10, 70, 'superSet', JSON_OBJECT('super_set_order', 2));
 ```
+**Commentaire :**  
+Ici, l’utilisateur enchaîne deux exercices (développé couché puis rowing barre) sans repos entre eux, pour 3 séries de 10 répétitions chacun. L’ordre d’exécution dans le super set est précisé dans le champ `custom_data`. Ce format permet d’augmenter l’intensité et de gagner du temps.
 
-### Giant Set
+---
+
+## Giant Set
 
 ```sql
+-- Création de quatre exercices pour un giant set
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES 
   (1, 'Squat', 'Squat avec barre', 'strength', true),
@@ -334,21 +379,32 @@ VALUES
   (1, 'Extensions jambes', 'Extensions des jambes à la machine', 'strength', true),
   (1, 'Mollets debout', 'Élévations des mollets debout', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, reps, exercise_type, custom_data)
+-- Ajout à la séance, tous les exercices sont réalisés à la suite sans repos
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, reps, exercise_type, custom_data
+)
 VALUES 
   (1, (SELECT id FROM exercises WHERE name = 'Squat'), 6, 3, 10, 'giantSet', JSON_OBJECT('giant_set_order', 1)),
   (1, (SELECT id FROM exercises WHERE name = 'Fentes'), 6, 3, 10, 'giantSet', JSON_OBJECT('giant_set_order', 2)),
   (1, (SELECT id FROM exercises WHERE name = 'Extensions jambes'), 6, 3, 12, 'giantSet', JSON_OBJECT('giant_set_order', 3)),
   (1, (SELECT id FROM exercises WHERE name = 'Mollets debout'), 6, 3, 15, 'giantSet', JSON_OBJECT('giant_set_order', 4));
 ```
+**Commentaire :**  
+L’utilisateur réalise ici un circuit de 4 exercices (giant set), enchaînés sans repos, pour 3 tours. Chaque exercice a son ordre dans le circuit, précisé dans `custom_data`. Ce type de structure est utilisé pour maximiser le volume et l’intensité sur un groupe musculaire.
 
-### Rest Pause
+---
+
+## Rest Pause
 
 ```sql
+-- Création d'un exercice rest-pause
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES (1, 'Tractions rest-pause', 'Tractions avec méthode rest-pause', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, exercise_type, custom_data)
+-- Ajout à la séance avec paramètres spécifiques rest-pause
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, exercise_type, custom_data
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Tractions rest-pause'),
@@ -361,14 +417,22 @@ VALUES (
   )
 );
 ```
+**Commentaire :**  
+L’utilisateur commence par faire 8 tractions, prend 15 secondes de repos, puis fait 5 reps, reprend 15 secondes, puis 3 reps, etc. Ce format permet d’aller au-delà de l’échec musculaire sur un exercice donné, en fractionnant l’effort avec de très courtes pauses.
 
-### Cluster
+---
+
+## Cluster
 
 ```sql
+-- Création d'un exercice cluster
 INSERT INTO exercises (user_id, name, description, type, is_public)
 VALUES (1, 'Développé couché cluster', 'Développé couché avec méthode cluster', 'strength', true);
 
-INSERT INTO session_exercises (session_id, exercise_id, order_in_session, sets, exercise_type, custom_data)
+-- Ajout à la séance avec structure cluster
+INSERT INTO session_exercises (
+  session_id, exercise_id, order_in_session, sets, exercise_type, custom_data
+)
 VALUES (
   1,
   (SELECT id FROM exercises WHERE name = 'Développé couché cluster'),
@@ -383,6 +447,9 @@ VALUES (
   )
 );
 ```
+**Commentaire :**  
+L’utilisateur effectue 5 séries, chaque série étant découpée en 4 mini-blocs (clusters) de 2 répétitions, avec 10 secondes de repos entre chaque cluster, à 90 kg. Cette méthode permet de soulever plus lourd ou de faire plus de volume que sur des séries classiques.
+
 
 ## Requêtes Courantes
 
