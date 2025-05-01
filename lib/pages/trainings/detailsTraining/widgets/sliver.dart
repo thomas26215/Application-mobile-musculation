@@ -10,23 +10,6 @@ class DetailSliverDelegate extends SliverPersistentHeaderDelegate {
 
     return Stack(
       children: [
-        Hero(
-          tag: 'popular-game-placeholder',
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: expandedHeight,
-            color: Theme.of(context).colorScheme.primary,
-            child: ModelViewer(
-              src: 'assets/test.glb',
-              alt: 'A 3D model',
-              ar: false, // Désactivé pour éviter l'accès à la caméra
-              autoRotate: true,
-              cameraControls: true,
-              disableZoom: false,
-              backgroundColor: Theme.of(context).colorScheme.primary,
-            ),
-          ),
-        ),
         Positioned(
           top: expandedHeight - roundedContainerHeight - shrinkOffset,
           left: 0,

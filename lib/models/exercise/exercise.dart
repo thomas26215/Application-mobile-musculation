@@ -12,7 +12,7 @@ class ExerciseTable {
         user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description TEXT,
-        type VARCHAR(50) NOT NULL,
+        type TEXT NOT NULL,
         is_public BOOLEAN DEFAULT FALSE,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES users(id)

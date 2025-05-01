@@ -17,7 +17,7 @@ class _TrainingsWidgetState extends State<TrainingsWidget> {
   void _onTrainingTap(Session session) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => DetailPage(session: session.id)),
+      MaterialPageRoute(builder: (context) => DetailPage(session: session)),
     );
   }
 
