@@ -3,7 +3,10 @@ import 'package:muscu/pages/trainings/addNewTraining/widgets/header.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/trainings/addNewTraining/widgets/note.dart';
 import 'package:muscu/pages/trainings/addNewTraining/globalSettings/main.dart';
-import 'package:muscu/pages/trainings/addNewTraining/addExercise/main.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/main.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exercise.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseSet.dart';
 
 class AddNewTrainingPage extends StatefulWidget {
   const AddNewTrainingPage({Key? key}) : super(key: key);
@@ -122,12 +125,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                   child: ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
-                        exercises.add(Exercise(
-                          name: "Nouvel exercice",
-                          sets: [ExerciseSet(reps: 10, weight: 0)],
-                          restTime: 60,
-                          type: ExerciseType.standard,
-                        ));
+                        exercises.add(Exercise.createExercise("Nouvel Exercise", "test", [ExerciseSet(reps: 10, weight: 5)], 60, ExerciseType.standard));
                       });
                     },
                     icon: Icon(Icons.add, color: Colors.white),

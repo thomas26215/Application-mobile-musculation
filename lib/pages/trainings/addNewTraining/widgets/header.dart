@@ -35,10 +35,10 @@ class Header extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.white),
               ),
               enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
               ),
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).colorScheme.primary, width: 2),
+                borderSide: BorderSide(color: Colors.white),
               ),
             ),
             onChanged: onChanged,
