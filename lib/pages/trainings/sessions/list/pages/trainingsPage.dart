@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/models/seance/seance.dart';
-import 'package:muscu/pages/trainings/list/widgets/search.dart';
-import 'package:muscu/pages/trainings/list/widgets/trainings.dart';
+import 'package:muscu/pages/trainings/sessions/list/widgets/search.dart';
+import 'package:muscu/pages/trainings/sessions/list/widgets/trainings.dart';
 import 'package:muscu/styles/text_styles.dart';
 
 class SportsListPage extends StatefulWidget {

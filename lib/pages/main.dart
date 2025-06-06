@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/dashboard/main.dart';
-import 'package:muscu/pages/trainings/list/main.dart';
+import 'package:muscu/pages/trainings/sessions/list/main.dart';
 
 class MainBottomTabs extends StatefulWidget {
   @override

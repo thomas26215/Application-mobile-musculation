@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/difficulty.dart';
-import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/duration.dart';
-import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/save.dart';
-import 'package:muscu/pages/trainings/addNewTraining/globalSettings/widgets/training_type.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/globalSettings/widgets/difficulty.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/globalSettings/widgets/duration.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/globalSettings/widgets/save.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/globalSettings/widgets/training_type.dart';
 
 class EditTrainingParametersPage extends StatefulWidget {
   final Map<String, dynamic> initialParameters;

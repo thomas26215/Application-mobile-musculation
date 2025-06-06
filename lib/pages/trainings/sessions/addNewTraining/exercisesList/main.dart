@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:unicons/unicons.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exercise.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/widgets/setWidget.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exercise.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/widgets/setWidget.dart';
 
 
 

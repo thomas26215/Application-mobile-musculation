@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/models/seance/seance.dart';
-import 'package:muscu/pages/trainings/detailsTraining/main.dart';
+import 'package:muscu/pages/trainings/sessions/detailsTraining/main.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 

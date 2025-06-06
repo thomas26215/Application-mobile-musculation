@@ -1,5 +1,5 @@
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseSet.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseSet.dart';
 
 class Exercise {
     String name;

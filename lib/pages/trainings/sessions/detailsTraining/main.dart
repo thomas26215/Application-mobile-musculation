@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:muscu/models/exercise/exercise.dart';
 import 'package:muscu/models/seance/seance.dart';
 import 'package:muscu/models/seance/session_exercise.dart';
-import 'package:muscu/pages/trainings/detailsTraining/widgets/sliver.dart';
+import 'package:muscu/pages/trainings/sessions/detailsTraining/widgets/sliver.dart';
 import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/main.dart';

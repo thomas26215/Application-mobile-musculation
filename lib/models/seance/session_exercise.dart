@@ -1,6 +1,6 @@
 import 'dart:convert';
 import '../database_helper.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
 
 
 class SessionExerciseTable {

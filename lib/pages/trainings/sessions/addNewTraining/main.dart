@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/models/seance/seance.dart';
 import 'package:muscu/models/seance/session_exercise.dart';
-import 'package:muscu/pages/trainings/addNewTraining/widgets/header.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/widgets/header.dart';
 import 'package:unicons/unicons.dart';
-import 'package:muscu/pages/trainings/addNewTraining/widgets/note.dart';
-import 'package:muscu/pages/trainings/addNewTraining/globalSettings/main.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/main.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exercise.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
-import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseSet.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/widgets/note.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/globalSettings/main.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/main.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exercise.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseSet.dart';
 
 class AddNewTrainingPage extends StatefulWidget {
   const AddNewTrainingPage({Key? key}) : super(key: key);

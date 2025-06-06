@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:muscu/pages/trainings/list/pages/trainingsPage.dart';
+import 'package:muscu/pages/trainings/sessions/list/pages/trainingsPage.dart';
 
 class TrainingsTabs extends StatelessWidget {
   @override
