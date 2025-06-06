@@ -1,79 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:muscu/models/database_helper.dart';
-import 'package:muscu/models/seance/seance.dart';
-import 'package:muscu/pages/trainings/list/widgets/search.dart';
-import 'package:muscu/pages/trainings/list/widgets/trainings.dart';
-import 'package:muscu/styles/text_styles.dart';
+import 'package:muscu/pages/trainings/list/pages/trainingsPage.dart';
 
-class SportsListPage extends StatefulWidget {
-    const SportsListPage({super.key});
-
-    @override
-    _SportsListPageState createState() => _SportsListPageState();
-}
-
-class _SportsListPageState extends State<SportsListPage> {
-    final dbHelper = DatabaseHelper.instance;
-    List<Session> allTrainings = [];
-    List<Session> filteredTrainings = [];
-
-    @override
-    void initState() {
-        super.initState();
-        _loadSessions();
-    }
-
-    Future<void> _loadSessions() async {
-        final loadedSessions = await SessionTable.getAllSessions(dbHelper);
-        setState(() {
-            allTrainings = loadedSessions;
-            filteredTrainings = List.from(allTrainings);
-        });
-    }
-
-    void searchTrainings(String query) {
-        setState(() {
-            filteredTrainings = allTrainings.where((training) {
-                final nomLower = training.name.toLowerCase();
-                final typeLower = training.type?.toLowerCase() ?? '';
-                final descriptionLower = training.description?.toLowerCase() ?? '';
-                final searchLower = query.toLowerCase();
-                return nomLower.contains(searchLower) || 
-                       typeLower.contains(searchLower) ||
-                       descriptionLower.contains(searchLower);
-            }).toList();
-        });
-    }
-
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            body: SafeArea(
-                child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 20, top: 20),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                            Row(
-                                children: [
-                                    Expanded(
-                                        child: Text(
-                                            "Entraînements",
-                                            style: AppTextStyles.titleMedium.copyWith(fontSize: 24),
-                                            textAlign: TextAlign.center,
-                                        ),
-                                    ),
-                                ],
-                            ),
-                            SearchWidget(onSearch: searchTrainings),
-                            Expanded(
-                                child: TrainingsWidget(filteredTrainings: filteredTrainings),
-                            ),
-                        ],
-                    ),
+class TrainingsTabs extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        // Fond global hérité du thème
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Column(
+          children: [
+            // Padding au-dessus des tabs
+            const SizedBox(height: 60),
+            // Onglets personnalisés avec fond et ombre
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TabBar(
+                indicator: BoxDecoration(
+                  color: Colors.white, // Fond de l'onglet sélectionné
+                  borderRadius: BorderRadius.circular(8),
                 ),
+                indicatorSize: TabBarIndicatorSize.tab,
+                labelColor: Theme.of(context).appBarTheme.backgroundColor ?? Theme.of(context).primaryColor, // Texte sélectionné
+                unselectedLabelColor: Colors.white, // Texte non sélectionné
+                tabs: const [
+                  Tab(text: 'All', height: 35),
+                  Tab(text: 'Favorites', height: 35),
+                ],
+              ),
             ),
-        );
-    }
+            // Contenu des onglets
+            Expanded(
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor, // Fond uniforme
+                child: const TabBarView(
+                  children: [
+                    SportsListPage(),
+                    Center(child: Text('Favorite Trainings')),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 

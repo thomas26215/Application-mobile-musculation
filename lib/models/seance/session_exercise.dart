@@ -1,16 +1,7 @@
 import 'dart:convert';
 import '../database_helper.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
 
-enum ExerciseType {
-  standard,
-  dropSet,
-  pyramid,
-  timeUnderTension,
-  superSet,
-  giantSet,
-  restPause,
-  cluster
-}
 
 class SessionExerciseTable {
   static const String tableName = 'session_exercises';

@@ -5,6 +5,7 @@ import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/models/utilisateur/utilisateurs.dart';
 import 'package:muscu/models/utilisateur/profils.dart';
 import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/pages/main.dart';
 import 'package:muscu/pages/testBDD/home_page.dart';
 
 void main() async {
@@ -72,7 +73,8 @@ class MyApp extends StatelessWidget {
         ),
       ),
       //home: const DashBoardPage(),
-      home: const HomePage(),
+      //home: const HomePage(),
+      home: MainBottomTabs(),
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/models/seance/session_exercise.dart';
 import 'package:muscu/models/exercise/exercise.dart';
 import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
 
 class SessionExercisesPage extends StatefulWidget {
   const SessionExercisesPage({Key? key}) : super(key: key);

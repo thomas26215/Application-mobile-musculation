@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseType.dart';
 import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exerciseSet.dart';
+import 'package:muscu/pages/trainings/addNewTraining/exercisesList/donnees/exercise.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:unicons/unicons.dart';
 
 class SetWidget extends StatefulWidget {
+    final Exercise exercise;
     final ExerciseSet set;
     final VoidCallback onUpdate;
     final VoidCallback onDelete;
@@ -13,6 +15,7 @@ class SetWidget extends StatefulWidget {
 
     const SetWidget({
         Key? key,
+        required this.exercise,
         required this.set,
         required this.onUpdate,
         required this.onDelete,
@@ -29,6 +32,8 @@ class _SetWidgetState extends State<SetWidget> {
     late TextEditingController _durationController;
     late TextEditingController _weightController;
     late TextEditingController _exerciseNameController;
+    late TextEditingController _pauseController;
+    late TextEditingController _recuperationController;
 
     @override
     void initState() {
@@ -37,6 +42,8 @@ class _SetWidgetState extends State<SetWidget> {
         _durationController = TextEditingController(text: widget.set.duration?.toString() ?? '');
         _weightController = TextEditingController(text: widget.set.weight?.toString() ?? '');
         _exerciseNameController = TextEditingController(text: widget.set.exerciseName ?? '');
+        _pauseController = TextEditingController(text: widget.set.pause?.toString() ?? '');
+        _recuperationController = TextEditingController(text: widget.set.reps?.toString() ?? '');
     }
 
     @override
@@ -45,6 +52,8 @@ class _SetWidgetState extends State<SetWidget> {
         _durationController.dispose();
         _weightController.dispose();
         _exerciseNameController.dispose();
+        _pauseController.dispose();
+        _recuperationController.dispose();
         super.dispose();
     }
 
@@ -60,207 +69,216 @@ class _SetWidgetState extends State<SetWidget> {
             padding: EdgeInsets.symmetric(vertical: 4),
             child: Column(
                 children: [
-                    Row(
-                        children: [
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: TextField(
-                                        controller: _repsController,
-                                        keyboardType: TextInputType.number,
-                                        style: AppTextStyles.titleMedium,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: "Répétitions",
-                                            labelStyle: AppTextStyles.bodySmall,
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 3.0,
+                    SizedBox(
+                        height: 50,
+                        child: Row(
+                            children: [
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(right: 8),
+                                        child: TextField(
+                                            controller: _repsController,
+                                            keyboardType: TextInputType.number,
+                                            style: AppTextStyles.titleMedium,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                labelText: "Répétitions",
+                                                labelStyle: AppTextStyles.bodySmall,
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 3.0,
+                                                    ),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 2.0,
+                                                    ),
                                                 ),
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2.0,
-                                                ),
-                                            ),
+                                            onChanged: (value) {
+                                                widget.set.reps = int.tryParse(value);
+                                                widget.onUpdate();
+                                                widget.onSetUpdated();
+                                            },
                                         ),
-                                        onChanged: (value) {
-                                            widget.set.reps = int.tryParse(value);
-                                            widget.onUpdate();
-                                            widget.onSetUpdated();
-                                        },
                                     ),
                                 ),
-                            ),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 4),
-                                    child: TextField(
-                                        controller: _weightController,
-                                        keyboardType: TextInputType.number,
-                                        style: AppTextStyles.titleMedium,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: "Poids",
-                                            labelStyle: AppTextStyles.bodySmall,
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 3.0,
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 4),
+                                        child: TextField(
+                                            controller: _weightController,
+                                            keyboardType: TextInputType.number,
+                                            style: AppTextStyles.titleMedium,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                labelText: "Poids",
+                                                labelStyle: AppTextStyles.bodySmall,
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 3.0,
+                                                    ),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 2.0,
+                                                    ),
                                                 ),
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2.0,
-                                                ),
-                                            ),
+                                            onChanged: (value) {
+                                                widget.set.weight = double.tryParse(value);
+                                                widget.onUpdate();
+                                                widget.onSetUpdated();
+                                            },
                                         ),
-                                        onChanged: (value) {
-                                            widget.set.weight = double.tryParse(value);
-                                            widget.onUpdate();
-                                            widget.onSetUpdated();
-                                        },
                                     ),
                                 ),
-                            ),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(left: 8),
-                                    child: TextField(
-                                        controller: _durationController,
-                                        keyboardType: TextInputType.number,
-                                        style: AppTextStyles.titleMedium,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: "Pause",
-                                            labelStyle: AppTextStyles.bodySmall,
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 3.0,
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(left: 8),
+                                        child: TextField(
+                                            controller: _durationController,
+                                            keyboardType: TextInputType.number,
+                                            style: AppTextStyles.titleMedium,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                labelText: "Pause",
+                                                labelStyle: AppTextStyles.bodySmall,
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 3.0,
+                                                    ),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 2.0,
+                                                    ),
                                                 ),
                                             ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2.0,
-                                                ),
-                                            ),
+                                            onChanged: (value) {
+                                                widget.set.pause = int.tryParse(value);
+                                                widget.onUpdate();
+                                                widget.onSetUpdated();
+                                            },
                                         ),
-                                        onChanged: (value) {
-                                            widget.set.pause = int.tryParse(value);
-                                            widget.onUpdate();
-                                            widget.onSetUpdated();
-                                        },
                                     ),
                                 ),
-                            ),
-                        ],
+                            ],
+                        ),
                     ),
                     SizedBox(height: 10),
-                    Row(
-                        children: [
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: TextField(
-                                        controller: _repsController,
-                                        keyboardType: TextInputType.number,
-                                        style: AppTextStyles.titleMedium,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: "Pause",
-                                            labelStyle: AppTextStyles.bodySmall,
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 3.0,
-                                                ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2.0,
-                                                ),
-                                            ),
-                                        ),
-                                        onChanged: (value) {
-                                            widget.set.reps = int.tryParse(value);
-                                            widget.onUpdate();
-                                            widget.onSetUpdated();
-                                        },
-                                    ),
-                                ),
-                            ),
-                            Expanded(
-                                child: Padding(
-                                    padding: EdgeInsets.only(right: 8),
-                                    child: TextField(
-                                        controller: _repsController,
-                                        keyboardType: TextInputType.number,
-                                        style: AppTextStyles.titleMedium,
-                                        decoration: InputDecoration(
-                                            border: OutlineInputBorder(),
-                                            labelText: "Recuperation",
-                                            labelStyle: AppTextStyles.bodySmall,
-                                            focusedBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.white,
-                                                    width: 3.0,
-                                                ),
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                    color: Colors.grey,
-                                                    width: 2.0,
-                                                ),
-                                            ),
-                                        ),
-                                        onChanged: (value) {
-                                            widget.set.reps = int.tryParse(value);
-                                            widget.onUpdate();
-                                            widget.onSetUpdated();
-                                        },
-                                    ),
-                                ),
-                            ),
-                            SizedBox(
-                                height: 56,
-                                child: GestureDetector(
-                                    onTap: (){
-                                        widget.onDelete();
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius: BorderRadius.circular(8),
-                                        ),
-                                        child: Center(
-                                            
-                                            child: Row(
-                                                children: [
-                                                    SizedBox(width: 5),
-                                                    Text(
-                                                        "Supprimer l'exo",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontWeight: FontWeight.bold,
-                                                        ),
+                    SizedBox(
+                        height: 50,
+                        child: Row(
+                            children: [
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(right: 8),
+                                        child: TextField(
+                                            controller: _pauseController,
+                                            keyboardType: TextInputType.number,
+                                            style: AppTextStyles.titleMedium,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                labelText: "Pause",
+                                                labelStyle: AppTextStyles.bodySmall,
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 3.0,
                                                     ),
-                                                    Icon(Icons.delete, color: Colors.white),
-                                                    SizedBox(width: 2),
-                                                ],
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 2.0,
+                                                    ),
+                                                ),
                                             ),
+                                            onChanged: (value) {
+                                                widget.set.pause = int.tryParse(value);
+                                                widget.onUpdate();
+                                                widget.onSetUpdated();
+                                            },
                                         ),
                                     ),
                                 ),
-                            )
-                            
-                        ],
-                    )
+                                Expanded(
+                                    child: Padding(
+                                        padding: EdgeInsets.only(right: 8),
+                                        child: TextField(
+                                            controller: _recuperationController,
+                                            keyboardType: TextInputType.number,
+                                            style: AppTextStyles.titleMedium,
+                                            decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                labelText: "Recuperation",
+                                                labelStyle: AppTextStyles.bodySmall,
+                                                focusedBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.white,
+                                                        width: 3.0,
+                                                    ),
+                                                ),
+                                                enabledBorder: OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color: Colors.grey,
+                                                        width: 2.0,
+                                                    ),
+                                                ),
+                                            ),
+                                            onChanged: (value) {
+                                                widget.exercise.recuperation = int.tryParse(value);
+                                                widget.onUpdate();
+                                                widget.onSetUpdated();
+                                            },
+                                        ),
+                                    ),
+                                ),
+                                SizedBox(
+                                    height: 50,
+                                    child: GestureDetector(
+                                        onTap: (){
+                                            widget.onDelete();
+                                        },
+                                        child: Container(
+                                            decoration: BoxDecoration(
+                                                color: Colors.red,
+                                                borderRadius: BorderRadius.circular(8),
+                                            ),
+                                            child: Center(
+                                                
+                                                child: Row(
+                                                    children: [
+                                                        SizedBox(width: 5),
+                                                        Text(
+                                                            "Supprimer l'exo",
+                                                            style: TextStyle(
+                                                                color: Colors.white,
+                                                                fontWeight: FontWeight.bold,
+                                                            ),
+                                                        ),
+                                                        Icon(
+                                                            UniconsLine.trash_alt,
+                                                            color: Colors.white,
+                                                        ),
+                                                        SizedBox(width: 2),
+                                                    ],
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                )
+                                
+                            ],
+                        ),
+                    ),
                 ],
             ),
         );

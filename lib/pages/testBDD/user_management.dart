@@ -35,8 +35,24 @@ class _UserManagementPageState extends State<UserManagementPage> {
         itemBuilder: (context, index) {
           final user = users[index];
           return ListTile(
-            title: Text(user.username, style: Theme.of(context).textTheme.displayMedium),
-            subtitle: Text(user.email, style: Theme.of(context).textTheme.displaySmall),
+            title: Text(
+              user.username,
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  user.email,
+                  style: Theme.of(context).textTheme.displaySmall,
+                ),
+                if (user.id != null)
+                  Text(
+                    'ID: ${user.id}',
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+              ],
+            ),
             trailing: IconButton(
               icon: Icon(Icons.delete, color: Colors.white),
               onPressed: () async {
@@ -71,15 +87,26 @@ class _UserManagementPageState extends State<UserManagementPage> {
             children: [
               TextField(
                 controller: pseudoController,
-                decoration: InputDecoration(labelText: 'Pseudo'),
+                decoration: InputDecoration(
+                  labelText: 'Pseudo',
+                  contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0), // Hauteur personnalisée
+                ),
               ),
+              SizedBox(height: 8),
               TextField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0), // Hauteur personnalisée
+                ),
               ),
+              SizedBox(height: 8),
               TextField(
                 controller: passwordController,
-                decoration: InputDecoration(labelText: 'Mot de passe'),
+                decoration: InputDecoration(
+                  labelText: 'Mot de passe',
+                  contentPadding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0), // Hauteur personnalisée
+                ),
                 obscureText: true,
               ),
             ],

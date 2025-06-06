@@ -142,6 +142,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         ),
                         SizedBox(height: 8),
                         ...widget.exercise.sets.map((set) => SetWidget(
+                            exercise: widget.exercise,
                             set: set,
                             onUpdate: widget.onUpdate,
                             onDelete: widget.onDelete,

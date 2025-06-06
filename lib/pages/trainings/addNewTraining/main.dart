@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/models/database_helper.dart';
+import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/models/seance/session_exercise.dart';
 import 'package:muscu/pages/trainings/addNewTraining/widgets/header.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/trainings/addNewTraining/widgets/note.dart';
@@ -16,18 +19,24 @@ class AddNewTrainingPage extends StatefulWidget {
 }
 
 class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProviderStateMixin {
+
+  int? sessionId;
   String trainingName = "";
+  List<Exercise> exercises = [];
+
+  final dbHelper = DatabaseHelper.instance;
+
   Map<String, dynamic> trainingParameters = {
     'type': 'Full Body',
     'duration': 60,
     'difficulty': 'Intermédiaire',
   };
-  List<Exercise> exercises = [];
 
   late AnimationController _controller;
   late Animation<double> _buttonScaleAnimation;
   late Animation<double> _iconRotationAnimation;
   late Animation<Color?> _colorAnimation;
+
 
   @override
   void initState() {
@@ -155,7 +164,44 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                             _controller.forward().then((value) {
                               _controller.reverse();
                             });
-                            // Votre action de sauvegarde ici
+                            if (trainingName.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Please enter a training name.")),
+                              );
+                              return;
+                            } else if (exercises.isEmpty) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Please add at least one exercise.")),
+                              );
+                              return;
+                            } else {
+                                final newSession = Session(
+                                    userId: 1,
+                                    name: trainingName,
+                                    type: "Standard",
+                                    description: "A new training session",
+                                );
+                                sessionId = await SessionTable.insert(dbHelper, newSession);
+                                print(sessionId);
+
+                            }
+                            
+                            for (var exercise in exercises) {
+                                final newExercise = SessionExercise(
+                                  sessionId: sessionId!,
+                                  exerciseId: 1,
+                                  orderInSession: exercises.indexOf(exercise),
+                                  sets: exercise.sets.length,
+                                  reps: exercise.sets.first.reps,
+                                  restTime: exercise.recuperation,
+                                  weight: exercise.sets.first.weight,
+                                  exerciseType: ExerciseType.standard,
+                                );
+
+                                await SessionExerciseTable.insert(dbHelper, newExercise);
+                            }
+
+
                           },
                           icon: AnimatedBuilder(
                             animation: _iconRotationAnimation,

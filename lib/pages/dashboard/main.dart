@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/pages/trainings/list/main.dart';
 import 'widgets/next_training.dart';
 import 'widgets/sport_list.dart';
-import '../trainings/list/main.dart';
+import '../trainings/list/pages/trainingsPage.dart';
 import 'package:unicons/unicons.dart';
 
 
@@ -45,7 +46,7 @@ class DashBoardPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SportsListPage()),
+                        MaterialPageRoute(builder: (context) => TrainingsTabs()),
                       );
                     },
                     child: const Icon(
