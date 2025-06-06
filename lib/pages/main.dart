@@ -119,14 +119,14 @@ class _MainBottomTabsState extends State<MainBottomTabs> with TickerProviderStat
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeOutQuint,
-                          width: selected ? 32 : 26,
-                          height: selected ? 32 : 26,
+                          width: selected ? 32 : 50,
+                          height: selected ? 32 : 20,
                           child: Icon(
                             _tabs[index].icon,
                             color: selected
                                 ? theme.appBarTheme.backgroundColor ?? theme.primaryColor
                                 : Colors.white,
-                            size: selected ? 32 : 26,
+                            size: selected ? 32 : 50,
                           ),
                         ),
                         // Toujours réserver la place du label pour éviter l'overflow
