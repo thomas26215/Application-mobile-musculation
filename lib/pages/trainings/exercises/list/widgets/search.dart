@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:muscu/styles/text_styles.dart';
-import 'package:muscu/pages/trainings/sessions/addNewTraining/main.dart';
+import 'package:muscu/pages/trainings/exercises/addNewExercise/addNewExercise.dart';
 
 class SearchWidget extends StatelessWidget {
   final ValueChanged<String> onSearch;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 import 'package:muscu/pages/dashboard/main.dart';
-import 'package:muscu/pages/trainings/sessions/list/main.dart';
+import 'package:muscu/pages/trainings/main.dart';
 
 class MainBottomTabs extends StatefulWidget {
   @override
@@ -120,7 +120,7 @@ class _MainBottomTabsState extends State<MainBottomTabs> with TickerProviderStat
                           duration: const Duration(milliseconds: 250),
                           curve: Curves.easeOutQuint,
                           width: selected ? 32 : 50,
-                          height: selected ? 32 : 20,
+                          height: selected ? 32 : 30,
                           child: Icon(
                             _tabs[index].icon,
                             color: selected

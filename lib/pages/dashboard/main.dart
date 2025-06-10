@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:muscu/pages/trainings/sessions/list/main.dart';
+import 'package:muscu/pages/trainings/main.dart';
 import 'widgets/next_training.dart';
 import 'widgets/sport_list.dart';
-import '../trainings/sessions/list/pages/trainingsPage.dart';
+import '../trainings/pages/trainingsPage.dart';
 import 'package:unicons/unicons.dart';
 
 
