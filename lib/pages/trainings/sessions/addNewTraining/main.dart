@@ -122,7 +122,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
             NoteWidget(),
             SizedBox(height: 20),
             Expanded( // Ajouté pour prendre l'espace restant
-              child: ExerciseWidget(exercises: exercises),
+              child: ExerciseWidget(exercises: exercises, dbHelper: DatabaseHelper.instance),
             ),
 
             SizedBox(height: 15),
@@ -134,7 +134,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                   child: ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
-                        exercises.add(Exercise.createExercise("Nouvel Exercise", "test", [ExerciseSet(reps: 10, weight: 5)], 60, ExerciseType.standard));
+                        exercises.add(Exercise.createExercise(1, "test", [ExerciseSet(reps: 10, weight: 5)], 60, ExerciseType.standard));
                       });
                     },
                     icon: Icon(Icons.add, color: Colors.white),
