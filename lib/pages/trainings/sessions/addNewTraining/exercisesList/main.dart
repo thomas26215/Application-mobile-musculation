@@ -6,9 +6,10 @@ import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donn
 import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exercise.dart';
 import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/widgets/setWidget.dart';
 import 'package:muscu/models/database_helper.dart';
+import 'package:muscu/models/exercise/exercise.dart';
 
 class ExerciseWidget extends StatefulWidget {
-  final List<Exercise> exercises;
+  final List<ExerciseToAdd> exercises;
   final DatabaseHelper dbHelper;
   const ExerciseWidget({Key? key, required this.exercises, required this.dbHelper}) : super(key: key);
 
@@ -50,7 +51,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
           if (oldIndex < newIndex) {
             newIndex -= 1;
           }
-          final Exercise item = widget.exercises.removeAt(oldIndex);
+          final ExerciseToAdd item = widget.exercises.removeAt(oldIndex);
           widget.exercises.insert(newIndex, item);
         });
       },
@@ -72,7 +73,7 @@ class _ExerciseWidgetState extends State<ExerciseWidget> {
 }
 
 class ExerciseCard extends StatefulWidget {
-  final Exercise exercise;
+  final ExerciseToAdd exercise;
   final DatabaseHelper dbHelper;
   final VoidCallback onUpdate;
   final VoidCallback onDelete;
@@ -111,90 +112,138 @@ class _ExerciseCardState extends State<ExerciseCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () async {
-                      final selectedExercise = await Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => SelectExistingExercisePage(
-                            dbHelper: widget.dbHelper,
-                            onExerciseSelected: (int? exerciseId) {
-                              if (widget.onExerciseSelectedCard != null) {
-                                widget.onExerciseSelectedCard!(exerciseId);
-                              }
-                            },
-                          ),
-                        ),
-                      );
-                      if (selectedExercise != null && selectedExercise is Exercise) {
-                        setState(() {
-                          widget.exercise.id = selectedExercise.id;
-                          widget.exercise.type = selectedExercise.type;
-                          // Ajoute ici d'autres champs à mettre à jour si besoin
-                        });
-                        widget.onUpdate();
-                      }
-                    },
-                    child: Text(
-                      widget.exercise.id.toString(),
-                      style: AppTextStyles.titleMedium.copyWith(
-                        decoration: TextDecoration.underline,
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 160, // Largeur bornée pour le DropdownButton
-                  child: Container(
-                    height: 35,
-                    decoration: BoxDecoration(
-                      color: Colors.blueGrey[800],
-                      borderRadius: BorderRadius.circular(4),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 6,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: DropdownButton<ExerciseType>(
-                      value: widget.exercise.type,
-                      dropdownColor: Colors.blueGrey[900],
-                      icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
-                      underline: const SizedBox(),
-                      style: const TextStyle(color: Colors.white, fontSize: 16),
-                      isExpanded: true,
-                      hint: const Text('Sélectionnez', style: TextStyle(color: Colors.white70)),
-                      items: ExerciseType.values.map((ExerciseType value) {
-                        return DropdownMenuItem<ExerciseType>(
-                          value: value,
-                          child: Text(
-                            _getExerciseTypeString(value),
-                            style: const TextStyle(color: Colors.white),
+            // --- MODIFIÉ : Bloc vert + Dropdown sur la même ligne ---
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12.0),
+              child: Row(
+                children: [
+                  // Bloc vert qui prend toute la place disponible à gauche
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () async {
+                        final selectedExercise = await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SelectExistingExercisePage(
+                              dbHelper: widget.dbHelper,
+                              onExerciseSelected: (int? exerciseId) {
+                                if (widget.onExerciseSelectedCard != null) {
+                                  widget.onExerciseSelectedCard!(exerciseId);
+                                }
+                              },
+                            ),
                           ),
                         );
-                      }).toList(),
-                      onChanged: (ExerciseType? newValue) {
-                        if (newValue != null) {
+                        if (selectedExercise != null && selectedExercise is ExerciseToAdd) {
                           setState(() {
-                            widget.exercise.type = newValue;
+                            widget.exercise.id = selectedExercise.id;
+                            widget.exercise.type = selectedExercise.type;
                           });
                           widget.onUpdate();
                         }
                       },
+                      child: Container(
+                        constraints: const BoxConstraints(
+                          minWidth: 80,
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.green,
+                          border: Border.all(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.25),
+                              blurRadius: 8,
+                              offset: const Offset(2, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            const Icon(Icons.edit, color: Colors.white, size: 22),
+                            const SizedBox(width: 10),
+                            Flexible(
+                              child: FutureBuilder<Exercise?>(
+                                future: widget.exercise.id != null
+                                    ? ExerciseTable.getExerciseById(widget.dbHelper, widget.exercise.id!)
+                                    : Future.value(null),
+                                builder: (context, snapshot) {
+                                  String displayName = "Exercice inconnu";
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    displayName = "Chargement...";
+                                  } else if (snapshot.hasData && snapshot.data != null) {
+                                    displayName = snapshot.data!.name;
+                                  }
+                                  return Text(
+                                    displayName,
+                                    style: AppTextStyles.titleMedium.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 12),
+                  // Dropdown à droite avec largeur fixe
+                  SizedBox(
+                    width: 160,
+                    child: Container(
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: Colors.blueGrey[800],
+                        borderRadius: BorderRadius.circular(4),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: DropdownButton<ExerciseType>(
+                        value: widget.exercise.type,
+                        dropdownColor: Colors.blueGrey[900],
+                        icon: const Icon(Icons.arrow_drop_down, color: Colors.white),
+                        underline: const SizedBox(),
+                        style: const TextStyle(color: Colors.white, fontSize: 16),
+                        isExpanded: true,
+                        hint: const Text('Sélectionnez', style: TextStyle(color: Colors.white70)),
+                        items: ExerciseType.values.map((ExerciseType value) {
+                          return DropdownMenuItem<ExerciseType>(
+                            value: value,
+                            child: Text(
+                              _getExerciseTypeString(value),
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                          );
+                        }).toList(),
+                        onChanged: (ExerciseType? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              widget.exercise.type = newValue;
+                            });
+                            widget.onUpdate();
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            SizedBox(height: 8),
+
+            const SizedBox(height: 8),
             ...widget.exercise.sets.map((set) => SetWidget(
               exercise: widget.exercise,
               set: set,
@@ -204,7 +253,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
               onSetUpdated: () {
                 setState(() {});
               })).toList(),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
           ],
         ),
       ),

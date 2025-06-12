@@ -22,7 +22,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
 
   int? sessionId;
   String trainingName = "";
-  List<Exercise> exercises = [];
+  List<ExerciseToAdd> exercises = [];
 
   final dbHelper = DatabaseHelper.instance;
 
@@ -134,7 +134,7 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
                   child: ElevatedButton.icon(
                     onPressed: () {
                       setState(() {
-                        exercises.add(Exercise.createExercise(1, "test", [ExerciseSet(reps: 10, weight: 5)], 60, ExerciseType.standard));
+                        exercises.add(ExerciseToAdd.createExercise(1, "test", [ExerciseSet(reps: 10, weight: 5)], 60, ExerciseType.standard));
                       });
                     },
                     icon: Icon(Icons.add, color: Colors.white),

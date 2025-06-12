@@ -1,21 +1,21 @@
 import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
 import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseSet.dart';
 
-class Exercise {
+class ExerciseToAdd {
     int id;
     int? recuperation;
     List<ExerciseSet> sets;
     ExerciseType type;
 
-    Exercise({
+    ExerciseToAdd({
         required this.id,
         required this.recuperation,
         required this.sets,
         required this.type,
     });
 
-    static Exercise createExercise(int id, String? equipment, List<ExerciseSet> sets, int restTime, ExerciseType type) {
-        return Exercise(
+    static ExerciseToAdd createExercise(int id, String? equipment, List<ExerciseSet> sets, int restTime, ExerciseType type) {
+        return ExerciseToAdd(
             id: id,
             recuperation: restTime,
             sets: sets,

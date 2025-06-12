@@ -6,7 +6,7 @@ import 'package:muscu/styles/text_styles.dart';
 import 'package:unicons/unicons.dart';
 
 class SetWidget extends StatefulWidget {
-    final Exercise exercise;
+    final ExerciseToAdd exercise;
     final ExerciseSet set;
     final VoidCallback onUpdate;
     final VoidCallback onDelete;
