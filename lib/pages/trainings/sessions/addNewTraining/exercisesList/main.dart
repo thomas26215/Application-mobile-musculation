@@ -145,7 +145,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         constraints: const BoxConstraints(
                           minWidth: 80,
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 16),
                         decoration: BoxDecoration(
                           color: Colors.green,
                           border: Border.all(color: Colors.black, width: 2),

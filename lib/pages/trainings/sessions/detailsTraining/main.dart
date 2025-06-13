@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:muscu/models/exercise/exercise.dart';
 import 'package:muscu/models/seance/seance.dart';
 import 'package:muscu/models/seance/session_exercise.dart';
+import 'package:muscu/pages/trainings/sessions/addNewTraining/main.dart';
 import 'package:muscu/pages/trainings/sessions/detailsTraining/widgets/sliver.dart';
 import 'package:muscu/models/database_helper.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/main.dart';
 import 'dart:async';
+
+import 'package:muscu/utils/snackbar_helper.dart';
 
 class DetailPage extends StatefulWidget {
   final Session session;
@@ -332,36 +335,124 @@ class BottomButton extends StatelessWidget {
   }) : super(key: key);
 
   final Session session;
+  final dbHelper = DatabaseHelper.instance;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.9),
-          padding: EdgeInsets.symmetric(vertical: 20),
-          textStyle: AppTextStyles.titleMedium.copyWith(color: Colors.white),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        onPressed: () {
-          final List<Map<String, dynamic>> exerciseList = [
-            {'name': 'Pompes', 'repetitions': 15, 'series': 3},
-            {'name': 'Squats', 'repetitions': 20, 'series': 3},
-            {'name': 'Tractions', 'repetitions': 8, 'series': 3},
-          ];
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => RepetitionsExercise(exercises: exerciseList),
+      child: Row(
+        children: [
+          // Bouton principal "Démarrer la séance"
+          Expanded(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.9),
+                padding: EdgeInsets.symmetric(vertical: 17),
+                textStyle: AppTextStyles.titleMedium.copyWith(color: Colors.white),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              ),
+              onPressed: () {
+                final List<Map<String, dynamic>> exerciseList = [
+                  {'name': 'Pompes', 'repetitions': 15, 'series': 3},
+                  {'name': 'Squats', 'repetitions': 20, 'series': 3},
+                  {'name': 'Tractions', 'repetitions': 8, 'series': 3},
+                ];
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RepetitionsExercise(exercises: exerciseList),
+                  ),
+                );
+              },
+              child: Center(child: Text("Démarrer la séance")),
             ),
-          );
-        },
-        child: Center(child: Text("Démarrer la séance")),
+          ),
+          SizedBox(width: 10),
+          // Bouton carré "Éditer"
+          Container(
+            width: 52,
+            height: 52,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueGrey,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding: EdgeInsets.zero,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddNewTrainingPage(sessionId: session.id!)),
+                );
+              },
+              child: Icon(Icons.edit, color: Colors.white),
+            ),
+          ),
+          SizedBox(width: 10),
+          // Bouton carré "Supprimer" avec menu contextuel
+          Container(
+            width: 52,
+            height: 52,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding: EdgeInsets.zero,
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                      title: Row(
+                        children: [
+                          Icon(Icons.warning, color: Colors.redAccent),
+                          SizedBox(width: 8),
+                          Text("Suppression", style: TextStyle(color: Colors.redAccent)),
+                        ],
+                      ),
+                      content: Text(
+                        "Êtes-vous sûr de vouloir supprimer cette séance ?\nCette action est irréversible.",
+                        style: AppTextStyles.bodySmall,
+                      ),
+                      actions: [
+                        TextButton(
+                          child: Text("Annuler", style: TextStyle(color: Colors.grey)),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.redAccent,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                          ),
+                          child: Text("Supprimer", style: TextStyle(color: Colors.white)),
+                          onPressed: () async {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop(); // Fermer la page de détails
+                            await SessionExerciseTable.deleteBySessionId(dbHelper, session.id!);
+
+                            await SessionTable.delete(dbHelper, session.id!);
+                            showCustomNotification(context, "Séance supprimée avec succès", type: SnackBarType.success);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Icon(Icons.delete, color: Colors.white),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
 
 class CombinedExerciseData {
   final SessionExercise sessionExercise;

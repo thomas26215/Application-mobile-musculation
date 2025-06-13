@@ -74,6 +74,15 @@ class SessionExerciseTable {
     );
   }
 
+  static Future<int> deleteBySessionId(DatabaseHelper dbHelper, int sessionId) async {
+      return await dbHelper.delete(
+        tableName,
+        'session_id = ?',
+        [sessionId],
+      );
+    }
+
+
   static Future<void> clearTable(DatabaseHelper dbHelper) async {
     await dbHelper.clearTable(tableName);
   }
