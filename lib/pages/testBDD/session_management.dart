@@ -153,7 +153,6 @@ class _SessionManagementPageState extends State<SessionManagementPage> {
                       return;
                     }
                     final newSession = Session(
-                      userId: localSelectedUser!.id!,
                       name: nomController.text,
                       type: localSelectedType,
                       description: descriptionController.text,

@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/models/seance/session_exercise.dart';
+import 'package:muscu/pages/trainings/workoutRunner/datas/ActualExercise.dart';
 import 'package:muscu/styles/text_styles.dart';
 
 class GlobalIndications extends StatelessWidget {
-    const GlobalIndications({super.key});
+
+    final ActualExercise actualExercise;
+    final Session session;
+    final SessionExercise sessionExercise;
+
+    const GlobalIndications({super.key, required this.actualExercise, required this.session, required this.sessionExercise});
 
     @override
     Widget build(BuildContext context) {
+
+        int numeroSerie = actualExercise.numeroSerie;
+        int? totalSeries = sessionExercise.sets;
+        int? repetitions = sessionExercise.reps;
+        double? charge = sessionExercise.weight;
 
         return Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
@@ -34,7 +47,7 @@ class GlobalIndications extends StatelessWidget {
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                     Text(
-                                        "3/4",
+                                        "$numeroSerie/$totalSeries",
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                 ],
@@ -46,7 +59,7 @@ class GlobalIndications extends StatelessWidget {
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                     Text(
-                                        "12",
+                                        "$repetitions",
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                 ],
@@ -58,7 +71,7 @@ class GlobalIndications extends StatelessWidget {
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                     Text(
-                                        "2 X 6",
+                                        "$charge",
                                         style: AppTextStyles.titleMedium.copyWith(fontSize: 20),
                                     ),
                                 ],

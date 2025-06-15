@@ -177,11 +177,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                                   }
                                   return Text(
                                     displayName,
-                                    style: AppTextStyles.titleMedium.copyWith(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      decoration: TextDecoration.none,
-                                    ),
+                                    style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.black),
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   );
@@ -264,7 +260,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
     switch (type) {
       case ExerciseType.standard:
         return "Standard";
-      // Ajoute d'autres cas si tu as d'autres types
+      case ExerciseType.dropSet:
+        return "Drop Set";
       default:
         return "Standard";
     }

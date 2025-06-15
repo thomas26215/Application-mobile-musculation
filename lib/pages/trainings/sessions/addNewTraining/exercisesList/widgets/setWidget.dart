@@ -165,7 +165,7 @@ class _SetWidgetState extends State<SetWidget> {
                         ),
                       ),
                       onChanged: (value) {
-                        widget.set.pause = int.tryParse(value);
+                        widget.set.duration = int.tryParse(value);
                         widget.onUpdate();
                         widget.onSetUpdated();
                       },

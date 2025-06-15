@@ -2,7 +2,6 @@ import 'dart:convert';
 import '../database_helper.dart';
 import 'package:muscu/pages/trainings/sessions/addNewTraining/exercisesList/donnees/exerciseType.dart';
 
-
 class SessionExerciseTable {
   static const String tableName = 'session_exercises';
 
@@ -18,6 +17,7 @@ class SessionExerciseTable {
         reps INTEGER,
         duration INTEGER,
         rest_time INTEGER,
+        pause INTEGER, 
         weight DECIMAL(5,2),
         exercise_type TEXT NOT NULL,
         custom_data TEXT,
@@ -75,13 +75,12 @@ class SessionExerciseTable {
   }
 
   static Future<int> deleteBySessionId(DatabaseHelper dbHelper, int sessionId) async {
-      return await dbHelper.delete(
-        tableName,
-        'session_id = ?',
-        [sessionId],
-      );
-    }
-
+    return await dbHelper.delete(
+      tableName,
+      'session_id = ?',
+      [sessionId],
+    );
+  }
 
   static Future<void> clearTable(DatabaseHelper dbHelper) async {
     await dbHelper.clearTable(tableName);
@@ -97,6 +96,7 @@ class SessionExercise {
   int? reps;
   int? duration;
   int? restTime;
+  int? pause; // <-- Ajouté ici
   double? weight;
   ExerciseType exerciseType;
   Map<String, dynamic>? customData;
@@ -110,29 +110,31 @@ class SessionExercise {
     this.reps,
     this.duration,
     this.restTime,
+    this.pause, // <-- Ajouté ici
     this.weight,
     required this.exerciseType,
     this.customData,
   });
 
   Map<String, dynamic> toMap() {
-  final map = <String, dynamic>{
-    'session_id': sessionId,
-    'exercise_id': exerciseId,
-    'order_in_session': orderInSession,
-    'sets': sets,
-    'reps': reps,
-    'duration': duration,
-    'rest_time': restTime,
-    'weight': weight,
-    'exercise_type': exerciseType.toString().split('.').last,
-    'custom_data': customData != null ? json.encode(customData) : null,
-  };
-  if (id != null) {
-    map['id'] = id;
+    final map = <String, dynamic>{
+      'session_id': sessionId,
+      'exercise_id': exerciseId,
+      'order_in_session': orderInSession,
+      'sets': sets,
+      'reps': reps,
+      'duration': duration,
+      'rest_time': restTime,
+      'pause': pause, // <-- Ajouté ici
+      'weight': weight,
+      'exercise_type': exerciseType.toString().split('.').last,
+      'custom_data': customData != null ? json.encode(customData) : null,
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
-  return map;
-}
 
   static SessionExercise fromMap(Map<String, dynamic> map) {
     return SessionExercise(
@@ -144,6 +146,7 @@ class SessionExercise {
       reps: map['reps'],
       duration: map['duration'],
       restTime: map['rest_time'],
+      pause: map['pause'], // <-- Ajouté ici
       weight: map['weight'] != null ? (map['weight'] as num).toDouble() : null,
       exerciseType: ExerciseType.values.firstWhere(
         (e) => e.toString().split('.').last == map['exercise_type'],

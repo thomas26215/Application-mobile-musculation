@@ -9,12 +9,10 @@ class SessionTable {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description TEXT,
         type VARCHAR(50),
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     ''');
   }
@@ -40,14 +38,10 @@ class SessionTable {
     return null;
   }
 
-  static Future<List<Session>> getSessionsByUserId(DatabaseHelper dbHelper, int userId) async {
-    final List<Map<String, dynamic>> maps = await dbHelper.queryRows(
-      tableName,
-      'user_id = ?',
-      [userId],
-    );
-    return List.generate(maps.length, (i) => Session.fromMap(maps[i]));
-  }
+  // Cette méthode n'a plus de sens sans user_id, tu peux la supprimer ou la laisser vide
+  // static Future<List<Session>> getSessionsByUserId(DatabaseHelper dbHelper, int userId) async {
+  //   return [];
+  // }
 
   static Future<int> update(DatabaseHelper dbHelper, Session session) async {
     return await dbHelper.update(
@@ -73,7 +67,6 @@ class SessionTable {
 
 class Session {
   final int? id;
-  final int userId;
   final String name;
   final String? description;
   final String? type;
@@ -81,7 +74,6 @@ class Session {
 
   Session({
     this.id,
-    required this.userId,
     required this.name,
     this.description,
     this.type,
@@ -91,7 +83,6 @@ class Session {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'user_id': userId,
       'name': name,
       'description': description,
       'type': type,
@@ -102,7 +93,6 @@ class Session {
   factory Session.fromMap(Map<String, dynamic> map) {
     return Session(
       id: map['id'],
-      userId: map['user_id'],
       name: map['name'],
       description: map['description'],
       type: map['type'],

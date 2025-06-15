@@ -97,6 +97,7 @@ void _edit() {
                                         reps: se.reps,
                                         weight: se.weight,
                                         duration: se.duration,
+                                        pause: se.pause, // Ajoute le champ pause si nécessaire
                                         // Ajoute d'autres champs si besoin
                                     ),
                                 ],
@@ -221,7 +222,6 @@ void _edit() {
                                                     } else {
                                                         final session = Session(
                                                             id: widget.sessionId, // important pour l'update
-                                                            userId: 1,
                                                             name: trainingName,
                                                             type: "Standard",
                                                             description: "A new training session",
@@ -248,7 +248,9 @@ void _edit() {
                                                                 orderInSession: exercises.indexOf(exercise),
                                                                 sets: exercise.numberOfSets ?? exercise.sets.length,
                                                                 reps: exercise.sets.first.reps,
+                                                                duration: exercise.sets.first.duration ?? 0, // Ajoute le champ duration si nécessaire
                                                                 restTime: exercise.recuperation,
+                                                                pause: exercise.sets.first.pause ?? 0, // Ajoute le champ pause si nécessaire
                                                                 weight: exercise.sets.first.weight,
                                                                 exerciseType: ExerciseType.standard,
                                                             );

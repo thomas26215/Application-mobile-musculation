@@ -1,21 +1,34 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:muscu/models/exercise/exercise.dart';
+import 'package:muscu/models/seance/seance.dart';
+import 'package:muscu/models/seance/session_exercise.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/widgets/demonstration.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/widgets/globals_indications.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/widgets/explications_text.dart';
 import 'package:muscu/pages/trainings/workoutRunner/RepetitionExercises/widgets/navigation_buttons.dart';
+import 'package:muscu/pages/trainings/workoutRunner/datas/ActualExercise.dart';
 import 'package:muscu/styles/text_styles.dart';
 import 'package:unicons/unicons.dart';
 
 class RepetitionsExercise extends StatelessWidget {
-    final List<Map<String, dynamic>> exercises;
+    final Session session;
+    final ActualExercise actualExercise;
+    final SessionExercise sessionExercise;
+    final Exercise? exercise;
 
     const RepetitionsExercise({
         super.key,
-        required this.exercises,
+        required this.session,
+        required this.actualExercise,
+        required this.sessionExercise,
+        this.exercise
     });
 
     @override
     Widget build(BuildContext context) {
+        String? nameExercise = exercise?.name;
         return Scaffold(
             body: Column(
                 children: [
@@ -50,19 +63,25 @@ class RepetitionsExercise extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                             Text(
-                                "coucou",
+                                "$nameExercise",
                                 style: AppTextStyles.titleMedium.copyWith(fontSize: 17),
                             ),
                         ],
                     ),
                     SizedBox(height: 20),
-                    GlobalIndications(),
+                    GlobalIndications(actualExercise: actualExercise, session: session, sessionExercise: sessionExercise,),
                     SizedBox(height: 20),
-                    Demonstration(),
+                    if(exercise?.videoURL != null)Demonstration(videoLink: exercise?.videoURL,),
                     SizedBox(height: 30),
-                    ExplicationsText(),
+                    if(exercise?.description != null)ExplicationsText(
+                        exerciseDescription: exercise?.description ?? "",
+                    ),
                     SizedBox(height: 10),
-                    NavigationButtons(),
+                    NavigationButtons(
+                        actual: actualExercise,
+                        session: session,
+                        initialSeconds: sessionExercise.pause ?? 60, // Correction ici
+                    ),
                     SizedBox(height: 10),
                 ],
             ),

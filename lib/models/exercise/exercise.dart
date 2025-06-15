@@ -9,13 +9,12 @@ class ExerciseTable {
     await db.execute('''
       CREATE TABLE IF NOT EXISTS $tableName (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user_id INTEGER NOT NULL,
         name VARCHAR(255) NOT NULL,
         description TEXT,
         type TEXT NOT NULL,
+        video_url TEXT,
         is_public BOOLEAN DEFAULT FALSE,
-        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     ''');
   }
@@ -41,14 +40,10 @@ class ExerciseTable {
     return null;
   }
 
-  static Future<List<Exercise>> getExercisesByUserId(DatabaseHelper dbHelper, int userId) async {
-    final List<Map<String, dynamic>> maps = await dbHelper.queryRows(
-      tableName,
-      'user_id = ?',
-      [userId],
-    );
-    return List.generate(maps.length, (i) => Exercise.fromMap(maps[i]));
-  }
+  // Cette méthode n'a plus de sens sans userId, tu peux la supprimer ou la laisser vide
+  // static Future<List<Exercise>> getExercisesByUserId(DatabaseHelper dbHelper, int userId) async {
+  //   return [];
+  // }
 
   static Future<int> update(DatabaseHelper dbHelper, Exercise exercise) async {
     return await dbHelper.update(
@@ -74,19 +69,19 @@ class ExerciseTable {
 
 class Exercise {
   int? id;
-  int userId;
   String name;
   String? description;
   String type;
+  String? videoURL;
   bool isPublic;
   DateTime? createdAt;
 
   Exercise({
     this.id,
-    required this.userId,
     required this.name,
     this.description,
     required this.type,
+    this.videoURL,
     this.isPublic = false,
     this.createdAt,
   });
@@ -94,10 +89,10 @@ class Exercise {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'user_id': userId,
       'name': name,
       'description': description,
       'type': type,
+      'video_url': videoURL,
       'is_public': isPublic ? 1 : 0,
       'created_at': createdAt?.toIso8601String(),
     };
@@ -106,10 +101,10 @@ class Exercise {
   static Exercise fromMap(Map<String, dynamic> map) {
     return Exercise(
       id: map['id'],
-      userId: map['user_id'],
       name: map['name'],
       description: map['description'],
       type: map['type'],
+      videoURL: map['video_url'],
       isPublic: map['is_public'] == 1,
       createdAt: map['created_at'] != null ? DateTime.parse(map['created_at']) : null,
     );

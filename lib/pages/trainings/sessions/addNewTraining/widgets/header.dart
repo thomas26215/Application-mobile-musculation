@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unicons/unicons.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   const Header({
     Key? key,
     required this.trainingName,
@@ -10,6 +10,33 @@ class Header extends StatelessWidget {
 
   final String trainingName;
   final ValueChanged<String> onChanged;
+
+  @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  late final TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController(text: widget.trainingName);
+  }
+
+  @override
+  void didUpdateWidget(Header oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.trainingName != oldWidget.trainingName) {
+      _controller.text = widget.trainingName;
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +54,7 @@ class Header extends StatelessWidget {
         ),
         Expanded(
           child: TextField(
+            controller: _controller,
             style: Theme.of(context).textTheme.displayLarge?.copyWith(color: Colors.white),
             decoration: InputDecoration(
               hintText: "Nom de l'entraînement",
@@ -41,7 +69,7 @@ class Header extends StatelessWidget {
                 borderSide: BorderSide(color: Colors.white),
               ),
             ),
-            onChanged: onChanged,
+            onChanged: widget.onChanged,
           ),
         ),
       ],

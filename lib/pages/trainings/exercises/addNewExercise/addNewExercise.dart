@@ -62,12 +62,13 @@ class _AddNewTrainingPageState extends State<AddNewTrainingPage> with TickerProv
             return;
         }
 
+
         final newExercise = Exercise(
             id: exerciseId,
-            userId: 1, // à adapter selon ton contexte utilisateur
             name: exerciseName,
             description: description,
             type: selectedExerciseType,
+            videoURL: videoUrl,
         );
 
         if (exerciseId == null) {

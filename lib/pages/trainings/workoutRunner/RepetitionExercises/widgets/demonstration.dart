@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Demonstration extends StatefulWidget {
-  const Demonstration({super.key});
+  final String? videoLink;
+  const Demonstration({super.key, this.videoLink});
 
   @override
   State<Demonstration> createState() => _DemonstrationState();
@@ -15,8 +16,10 @@ class _DemonstrationState extends State<Demonstration> {
   @override
   void initState() {
     super.initState();
+    // Récupère l'ID de la vidéo à partir du lien, ou utilise l'ID par défaut si null/invalide
+    String videoId = YoutubePlayer.convertUrlToId(widget.videoLink ?? '') ?? '3pXAbdTujUw';
     _controller = YoutubePlayerController(
-      initialVideoId: '3pXAbdTujUw', // Remplacez par l'ID de votre vidéo YouTube
+      initialVideoId: videoId,
       flags: YoutubePlayerFlags(
         autoPlay: true,
         mute: _isMuted,

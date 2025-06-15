@@ -5,5 +5,5 @@ class ExerciseSet {
     int? pause;
     String? exerciseName;
 
-    ExerciseSet({this.reps, this.duration, this.weight, this.exerciseName});
+    ExerciseSet({this.reps, this.duration, this.weight, this.exerciseName, this.pause});
 }

@@ -61,8 +61,6 @@ class _ExercisesManagementState extends State<ExercisesManagementPage> {
                 Text('Type: ${exercise.type}'),
                 Text(
                     'Created At: ${DateFormat('yyyy-MM-dd').format(exercise.createdAt!)}'),
-                Text(
-                    'User: ${users.firstWhereOrNull((user) => user.id == exercise.userId)?.username ?? 'Unknown'}'),
               ],
             ),
             trailing: IconButton(
@@ -156,7 +154,6 @@ class _ExercisesManagementState extends State<ExercisesManagementPage> {
                     return;
                   }
                   final newExercise = Exercise(
-                    userId: localSelectedUser!.id!,
                     name: nomController.text,
                     description: descriptionController.text,
                     type: localSelectedType!,

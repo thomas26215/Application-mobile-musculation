@@ -43,22 +43,23 @@ class DatabaseHelper {
     ''');
 
     await db.execute('''
-    CREATE TABLE IF NOT EXISTS session_exercises (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      session_id INTEGER NOT NULL,
-      exercise_id INTEGER NOT NULL,
-      order_in_session INTEGER NOT NULL,
-      sets INTEGER,
-      reps INTEGER,
-      duration INTEGER,
-      rest_time INTEGER,
-      weight DECIMAL(5,2),
-      exercise_type TEXT NOT NULL,
-      custom_data TEXT,
-      FOREIGN KEY (session_id) REFERENCES sessions(id),
-      FOREIGN KEY (exercise_id) REFERENCES exercises(id)
-    )
-  ''');
+      CREATE TABLE IF NOT EXISTS session_exercises (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        session_id INTEGER NOT NULL,
+        exercise_id INTEGER NOT NULL,
+        order_in_session INTEGER NOT NULL,
+        sets INTEGER,
+        reps INTEGER,
+        duration INTEGER,
+        rest_time INTEGER,
+        pause INTEGER, 
+        weight DECIMAL(5,2),
+        exercise_type TEXT NOT NULL,
+        custom_data TEXT,
+        FOREIGN KEY (session_id) REFERENCES sessions(id),
+        FOREIGN KEY (exercise_id) REFERENCES exercises(id)
+      )
+    ''');
   }
 
   // Insert a row into a table

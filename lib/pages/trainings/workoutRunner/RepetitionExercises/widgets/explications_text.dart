@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:muscu/styles/text_styles.dart';
 
 class ExplicationsText extends StatelessWidget {
-  const ExplicationsText({super.key});
+
+    final String exerciseDescription;
+
+  const ExplicationsText({super.key, required this.exerciseDescription});
 
     @override
     Widget build(BuildContext context) {
@@ -11,42 +14,7 @@ class ExplicationsText extends StatelessWidget {
                 child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici."
-                        "Ici, vous pouvez ajouter votre texte d'explication. "
-                        "Ce texte sera scrollable si nécessaire. "
-                        "Vous pouvez ajouter autant de contenu que vous le souhaitez ici.",
+                        exerciseDescription,
                         style: AppTextStyles.bodySmall,
                     ),
                 ),

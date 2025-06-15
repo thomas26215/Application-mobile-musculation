@@ -15,6 +15,8 @@ class UserTable {
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
       )
     ''');
+
+
   }
 
   static Future<int> insert(DatabaseHelper dbHelper, User user) async {
